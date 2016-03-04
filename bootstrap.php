@@ -13,24 +13,4 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace JannisFink\routing\request;
-
-/**
- * Class RequestInterpreter
- *
- * Base class for any http request. You may want it to be present in you index.php.
- * Configure your webserver so that it will rewrite all requests to this file.
- *
- * Sample usage would be:
- *
- *    $pageMap = [
- *      'hello-world' => HelloWorld::class
- *    ]
- *
- *    JannisFink\\routing\\request\\RequestInterpreter::showPage($pageMap);
- *
- * @package JannisFink\routing\request
- */
-class RequestInterpreter {
-
-}
+require_once  __DIR__ . '/vendor/autoload.php';
