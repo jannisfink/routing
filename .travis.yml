@@ -11,4 +11,7 @@ matrix:
     - php: 7.0
     - php: hhvm
 
+befor_script:
+  - composer install
+
 script: phpunit --configuration phpunit.xml --coverage-text
