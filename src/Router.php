@@ -13,15 +13,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace JannisFink\routing\request;
+namespace JannisFink\routing;
 
 /**
- * Class RequestInterpreter
+ * Class Router
  *
- * Interprets any incoming http request and maps him to a webpage
+ * Base class for any http request. You may want it to be present in you index.php.
+ * Configure your webserver so that it will rewrite all requests to this file.
  *
- * @package JannisFink\routing\request
+ * Sample usage would be:
+ *
+ *    $pageMap = [
+ *      'hello-world' => HelloWorld::class
+ *    ]
+ *
+ *    JannisFink\routing\Router::showPage($pageMap);
+ *
+ * @package JannisFink\routing
  */
-class RequestInterpreter {
+class Router {
 
 }
