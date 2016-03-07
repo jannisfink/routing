@@ -17,7 +17,7 @@ namespace JannisFink\routing;
 
 class RouterTest extends \PHPUnit_Framework_TestCase {
 
-  public function testshowPageSetClassMap() {
+  public function testShowPageSetClassMap() {
     $testArray = array();
     Router::showPage($testArray);
 
