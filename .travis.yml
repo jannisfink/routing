@@ -13,4 +13,8 @@ matrix:
 before_script:
   - composer install
 
-script: phpunit --configuration phpunit.xml --coverage-text
+script:
+  - phpunit --configuration phpunit.xml
+
+after_success:
+  - travis_retry php vendor/bin/coveralls
