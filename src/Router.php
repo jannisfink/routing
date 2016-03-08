@@ -36,12 +36,12 @@ class Router {
   private static $classMap;
 
   /**
-   * Mail API method to show a page.
+   * Main API method to show a page.
    *
    * @param array $classMap an associative array which maps all wanted urls to the given classname
    */
   public static function showPage(array $classMap) {
-    static::$classMap = $classMap;
+    self::$classMap = $classMap;
   }
 
   /**
