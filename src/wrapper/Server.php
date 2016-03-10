@@ -14,6 +14,7 @@
 // limitations under the License.
 
 namespace JannisFink\routing\wrapper;
+use JannisFink\routing\exc\IllegalArgumentException;
 
 /**
  * Class Server
@@ -34,11 +35,15 @@ class Server implements WrapObject {
    *
    * @param $key
    * @return string the value mapping to the key
+   * @throws IllegalArgumentException if the key is not present
    */
   public static function get($key) {
+    $array = $_SERVER;
     if (static::$default !== null)
-      return static::$default[$key];
-    return $_SERVER[$key];
+      $array = static::$default;
+    if (!array_key_exists($key, $array))
+      throw new IllegalArgumentException($key . ' does not exist in the server array');
+    return $array[$key];
   }
 
   /**
@@ -47,7 +52,7 @@ class Server implements WrapObject {
    *
    * @param array $default
    */
-  public static function setDefault(array $default) {
+  public static function setDefault($default) {
     static::$default = $default;
   }
 }

@@ -16,6 +16,8 @@
 namespace JannisFink\routing\wrapper;
 
 
+use JannisFink\routing\exc\IllegalArgumentException;
+
 class ServerTest extends \PHPUnit_Framework_TestCase {
 
   public function testSetDefault() {
@@ -23,8 +25,13 @@ class ServerTest extends \PHPUnit_Framework_TestCase {
       'test' => 'sample value'
     ];
     Server::setDefault($testArray);
-
     $this->assertEquals(Server::get('test'), 'sample value');
+  }
+
+  public function testGetKeyNotExistent() {
+    $this->setExpectedException(IllegalArgumentException::class);
+    Server::setDefault(null);
+    Server::get('test');
   }
 
 }

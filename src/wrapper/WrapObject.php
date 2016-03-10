@@ -14,6 +14,7 @@
 // limitations under the License.
 
 namespace JannisFink\routing\wrapper;
+use JannisFink\routing\exc\IllegalArgumentException;
 
 /**
  * Interface HttpWrapObject
@@ -29,6 +30,7 @@ interface WrapObject {
    *
    * @param $key
    * @return string the value mapping to the key
+   * @throws IllegalArgumentException if the key is not present
    */
   public static function get($key);
 
@@ -38,6 +40,6 @@ interface WrapObject {
    *
    * @param array $default
    */
-  public static function setDefault(array $default);
+  public static function setDefault($default);
 
 }
