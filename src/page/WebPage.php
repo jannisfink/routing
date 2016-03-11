@@ -14,6 +14,8 @@
 // limitations under the License.
 
 namespace JannisFink\routing\page;
+use JannisFink\routing\exc\web\HttpMethodNotAllowed;
+use JannisFink\routing\exc\web\WebException;
 
 /**
  * Class WebPage
@@ -24,8 +26,40 @@ namespace JannisFink\routing\page;
  */
 abstract class WebPage {
 
+  /**
+   * Method mapping to the HTTP GET method
+   *
+   * @throws WebException if anything goes wrong
+   */
   public function get() {
+    throw new HttpMethodNotAllowed();
+  }
 
+  /**
+   * Method mapping to the HTTP POST method
+   *
+   * @throws WebException if anything goes wrong
+   */
+  public function post() {
+    throw new HttpMethodNotAllowed();
+  }
+
+  /**
+   * Method mapping to the HTTP PUT method
+   *
+   * @throws WebException if anything goes wrong
+   */
+  public function put() {
+    throw new HttpMethodNotAllowed();
+  }
+
+  /**
+   * Method mapping to the HTTP DELETE method
+   *
+   * @throws WebException if anything goes wrong
+   */
+  public function delete() {
+    throw new HttpMethodNotAllowed();
   }
 
 }
