@@ -18,10 +18,14 @@ namespace JannisFink\routing\page;
 /**
  * Class WebPage
  *
- * Base class for all webpages.
+ * Base class for all web pages.
  *
  * @package JannisFink\routing\page
  */
-class WebPage {
+abstract class WebPage {
+
+  public function get() {
+
+  }
 
 }

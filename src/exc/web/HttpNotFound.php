@@ -13,19 +13,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace JannisFink\routing\exc;
+namespace JannisFink\routing\exc\web;
 
 /**
- * Class BaseException
+ * Class HttpNotFound
  *
- * Base class for all exceptions
+ * To send a HTTP 404 Not Found header back to the client.
  *
- * @package JannisFink\routing\exc
+ * @package JannisFink\routing\exc\web
  */
-abstract class BaseException extends \Exception {
+class HttpNotFound extends WebException {
 
-  public function __construct($message) {
-    parent::__construct($message);
+  public function __construct() {
+    parent::__construct('404 Not Found');
   }
 
+  /**
+   * @return int the status code for this return type
+   */
+  public function getStatusCode() {
+    return 404;
+  }
 }

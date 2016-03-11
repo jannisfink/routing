@@ -13,19 +13,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace JannisFink\routing\exc;
+namespace JannisFink\routing\exc\web;
 
-/**
- * Class BaseException
- *
- * Base class for all exceptions
- *
- * @package JannisFink\routing\exc
- */
-abstract class BaseException extends \Exception {
+class HttpNotFoundTest extends \PHPUnit_Framework_TestCase {
 
-  public function __construct($message) {
-    parent::__construct($message);
+  public function testStatusCode() {
+    $this->assertEquals(404, (new HttpNotFound())->getStatusCode());
   }
 
 }

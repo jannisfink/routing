@@ -13,19 +13,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace JannisFink\routing\exc;
+namespace JannisFink\routing\exc\web;
+
+use JannisFink\routing\exc\BaseException;
 
 /**
- * Class BaseException
+ * Class WebException
  *
- * Base class for all exceptions
+ * Base class for all exceptions which should send a status code (different from 200, 301, 302 or 307) back to the client
  *
- * @package JannisFink\routing\exc
+ * @package JannisFink\routing\exc\web
  */
-abstract class BaseException extends \Exception {
+abstract class WebException extends BaseException {
 
-  public function __construct($message) {
-    parent::__construct($message);
-  }
+  /**
+   * @return int the status code for this return type
+   */
+  abstract public function getStatusCode();
 
 }
