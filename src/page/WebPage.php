@@ -14,6 +14,7 @@
 // limitations under the License.
 
 namespace Yarf\page;
+
 use Yarf\exc\web\HttpMethodNotAllowed;
 use Yarf\exc\web\WebException;
 

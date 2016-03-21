@@ -14,6 +14,7 @@
 // limitations under the License.
 
 namespace Yarf\wrapper;
+
 use Yarf\exc\IllegalArgumentException;
 
 /**

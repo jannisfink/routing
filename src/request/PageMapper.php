@@ -14,6 +14,7 @@
 // limitations under the License.
 
 namespace Yarf\request;
+
 use Yarf\exc\web\HttpNotFound;
 use Yarf\exc\web\WebException;
 use Yarf\page\WebPage;
