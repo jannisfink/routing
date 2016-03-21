@@ -13,7 +13,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace JannisFink\routing\request;
+namespace Yarf\request;
 
 /**
  * Class RequestInterpreter
@@ -23,5 +23,12 @@ namespace JannisFink\routing\request;
  * @package JannisFink\routing\request
  */
 class RequestInterpreter {
+
+  /**
+   * Gets the request uri from Server and tries to map a web page to it
+   */
+  public function interpretRequestUri() {
+
+  }
 
 }

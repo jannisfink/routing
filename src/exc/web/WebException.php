@@ -13,9 +13,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace JannisFink\routing\exc\web;
+namespace Yarf\exc\web;
 
-use JannisFink\routing\exc\BaseException;
+use Yarf\exc\BaseException;
 
 /**
  * Class WebException

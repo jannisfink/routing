@@ -13,8 +13,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace JannisFink\routing\wrapper;
-use JannisFink\routing\exc\IllegalArgumentException;
+namespace Yarf\wrapper;
+use Yarf\exc\IllegalArgumentException;
 
 /**
  * Interface HttpWrapObject

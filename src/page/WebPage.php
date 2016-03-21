@@ -13,9 +13,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace JannisFink\routing\page;
-use JannisFink\routing\exc\web\HttpMethodNotAllowed;
-use JannisFink\routing\exc\web\WebException;
+namespace Yarf\page;
+use Yarf\exc\web\HttpMethodNotAllowed;
+use Yarf\exc\web\WebException;
 
 /**
  * Class WebPage

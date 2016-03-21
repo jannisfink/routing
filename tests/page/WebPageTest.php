@@ -13,9 +13,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace JannisFink\routing\page;
+namespace Yarf\page;
 
-use JannisFink\routing\exc\web\HttpMethodNotAllowed;
+use Yarf\exc\web\HttpMethodNotAllowed;
 
 class SampleWebPage extends WebPage {
   // empty on purpose

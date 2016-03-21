@@ -13,7 +13,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace JannisFink\routing;
+namespace Yarf;
 
 class RouterTest extends \PHPUnit_Framework_TestCase {
 

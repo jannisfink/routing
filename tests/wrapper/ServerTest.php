@@ -13,10 +13,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace JannisFink\routing\wrapper;
+namespace Yarf\wrapper;
 
 
-use JannisFink\routing\exc\IllegalArgumentException;
+use Yarf\exc\IllegalArgumentException;
 
 class ServerTest extends \PHPUnit_Framework_TestCase {
 
