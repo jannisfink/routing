@@ -25,7 +25,7 @@ namespace Yarf\exc\web;
 class HttpNotFound extends WebException {
 
   public function __construct() {
-    parent::__construct('404 Not Found');
+    parent::__construct('Not Found');
   }
 
   /**

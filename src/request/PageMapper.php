@@ -13,27 +13,39 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Yarf;
-
+namespace Yarf\request;
 use Yarf\exc\web\HttpNotFound;
+use Yarf\exc\web\WebException;
+use Yarf\page\WebPage;
 
-class RouterTest extends \PHPUnit_Framework_TestCase {
+/**
+ * Class PageMapper
+ *
+ * Gets a page map and extends it, if necessary
+ *
+ * @package JannisFink\routing\request
+ */
+class PageMapper {
 
-  public function testShowPageSetClassMap() {
-    $testArray = array();
-    Router::showPage($testArray);
+  /**
+   * @var array the page map
+   */
+  private $pageMap;
 
-    $this->assertEquals(Router::getClassMap(), $testArray);
+  /**
+   * PageMapper constructor.
+   * @param array $pageMap the valid page map
+   */
+  public function __construct(array $pageMap) {
+    $this->pageMap = $pageMap;
   }
 
-  public function testSetHeader() {
-    Router::getOutput(null, new HttpNotFound());
-    $this->assertEquals(404, http_response_code());
-  }
-
-  public function testGetOutput() {
-    $output = Router::getOutput(null, new HttpNotFound());
-    $this->assertEquals('<h1>HTTP 404</h1><br><br>Not Found', $output);
+  /**
+   * @return WebPage a webpage mapping to the request
+   * @throws WebException if anything goes wrong
+   */
+  public function getPage() {
+    throw new HttpNotFound();
   }
 
 }
