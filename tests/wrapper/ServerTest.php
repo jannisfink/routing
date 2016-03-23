@@ -33,7 +33,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase {
   }
 
   public function testGetKeyNotExistent() {
-    $this->expectException(IllegalArgumentException::class);
+    $this->setExpectedException(IllegalArgumentException::class);
     Server::setDefault(null);
     Server::get('test');
   }

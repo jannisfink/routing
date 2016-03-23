@@ -40,7 +40,7 @@ class PageMapperTest extends \PHPUnit_Framework_TestCase {
 
   public function testGetPageEmptyMap() {
     // empty class map should always result in a 404
-    $this->expectException(HttpNotFound::class);
+    $this->setExpectedException(HttpNotFound::class);
     Server::setDefault([Server::REQUEST_URI => '/some/nonexistent/uri']);
     $pageMapper = new PageMapper([]);
     $pageMapper->getPage();
@@ -74,7 +74,7 @@ class PageMapperTest extends \PHPUnit_Framework_TestCase {
   }
 
   public function testGetWebPageFalseInstance() {
-    $this->expectException(HttpInternalServerError::class);
+    $this->setExpectedException(HttpInternalServerError::class);
     $pageMap = [
       'test' => \Exception::class
     ];
@@ -84,7 +84,7 @@ class PageMapperTest extends \PHPUnit_Framework_TestCase {
   }
 
   public function testGetWebPageInvalidClassName() {
-    $this->expectException(HttpInternalServerError::class);
+    $this->setExpectedException(HttpInternalServerError::class);
     $pageMap = [
       'test' => 'I am not a class name'
     ];
@@ -94,7 +94,7 @@ class PageMapperTest extends \PHPUnit_Framework_TestCase {
   }
 
   public function testGetValidWebPagePrivateConstructor() {
-    $this->expectException(HttpInternalServerError::class);
+    $this->setExpectedException(HttpInternalServerError::class);
     $pageMap = [
       '' => SampleWebPagePrivateConstructor::class
     ];
