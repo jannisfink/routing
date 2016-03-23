@@ -68,6 +68,9 @@ class Server implements WrapObject {
     if (count($parts) > 1 && $parts[0] === '') {
       $parts = array_slice($parts, 1);
     }
+    if (count($parts) > 1 && $parts[count($parts) - 1] === '') {
+      $parts = array_slice($parts, 0, count($parts) - 1);
+    }
     return $parts;
   }
 

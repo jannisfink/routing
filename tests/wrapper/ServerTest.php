@@ -42,10 +42,19 @@ class ServerTest extends \PHPUnit_Framework_TestCase {
     Server::setDefault([Server::REQUEST_URI => '/this/is/a/simple/test']);
     $this->assertEquals(['this', 'is', 'a', 'simple', 'test'], Server::getRequestUriParts());
 
+    Server::setDefault([Server::REQUEST_URI => '/this/is/a/simple/test/']);
+    $this->assertEquals(['this', 'is', 'a', 'simple', 'test'], Server::getRequestUriParts());
+
     Server::setDefault([Server::REQUEST_URI => '/this/is/a/simple/test?and=1&this=2&are=3&some=4&params=5']);
     $this->assertEquals(['this', 'is', 'a', 'simple', 'test'], Server::getRequestUriParts());
 
+    Server::setDefault([Server::REQUEST_URI => '/this/is/a/simple/test/?and=1&this=2&are=3&some=4&params=5']);
+    $this->assertEquals(['this', 'is', 'a', 'simple', 'test'], Server::getRequestUriParts());
+
     Server::setDefault([Server::REQUEST_URI => '/']);
+    $this->assertEquals([''], Server::getRequestUriParts());
+
+    Server::setDefault([Server::REQUEST_URI => '/?test=jop']);
     $this->assertEquals([''], Server::getRequestUriParts());
   }
 
