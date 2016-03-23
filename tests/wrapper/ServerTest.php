@@ -20,6 +20,10 @@ use Yarf\exc\IllegalArgumentException;
 
 class ServerTest extends \PHPUnit_Framework_TestCase {
 
+  public function tearDown() {
+    Server::setDefault(null);
+  }
+
   public function testSetDefault() {
     $testArray = [
       'test' => 'sample value'
@@ -32,6 +36,17 @@ class ServerTest extends \PHPUnit_Framework_TestCase {
     $this->setExpectedException(IllegalArgumentException::class);
     Server::setDefault(null);
     Server::get('test');
+  }
+
+  public function testGetRequestUriParts() {
+    Server::setDefault([Server::REQUEST_URI => '/this/is/a/simple/test']);
+    $this->assertEquals(['this', 'is', 'a', 'simple', 'test'], Server::getRequestUriParts());
+
+    Server::setDefault([Server::REQUEST_URI => '/this/is/a/simple/test?and=1&this=2&are=3&some=4&params=5']);
+    $this->assertEquals(['this', 'is', 'a', 'simple', 'test'], Server::getRequestUriParts());
+
+    Server::setDefault([Server::REQUEST_URI => '/']);
+    $this->assertEquals([''], Server::getRequestUriParts());
   }
 
 }

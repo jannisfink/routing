@@ -27,6 +27,11 @@ use Yarf\exc\IllegalArgumentException;
 class Server implements WrapObject {
 
   /**
+   * all possible fields
+   */
+  const REQUEST_URI = 'REQUEST_URI';
+
+  /**
    * @var array the default values
    */
   private static $default;
@@ -48,12 +53,29 @@ class Server implements WrapObject {
   }
 
   /**
+   * Returns the url in an array. Example:
+   *
+   * 'example.com/test/url/path' would result in ['test', 'url', 'path']
+   *
+   * @return array parts of the url in an array
+   */
+  public static function getRequestUriParts() {
+    $requestUri = self::get(self::REQUEST_URI);
+    $requestUri = mb_split('\?', $requestUri)[0];
+    $parts = mb_split('\/', $requestUri);
+    if (count($parts) && $parts[0] === '') {
+      $parts = array_slice($parts, 1);
+    }
+    return $parts;
+  }
+
+  /**
    * Mainly for test purposes. Method to set given fields to a default value. WrapObject::get will use the
    * values given to this function, if it was invoked.
    *
    * @param array $default
    */
-  public static function setDefault($default) {
+  public static function setDefault(array $default = null) {
     static::$default = $default;
   }
 }
