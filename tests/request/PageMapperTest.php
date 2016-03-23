@@ -103,4 +103,39 @@ class PageMapperTest extends \PHPUnit_Framework_TestCase {
     $pageMapper->getPage();
   }
 
+  public function testGetValidWebPageDeepUri() {
+    $pageMap = [
+      'this' => [
+        'is' => [
+          'a' => [
+            'test' => SampleWebPage::class
+          ]
+        ]
+      ]
+    ];
+
+    Server::setDefault([Server::REQUEST_URI => '/this/is/a/test']);
+    $pageMapper = new PageMapper($pageMap);
+    $page = $pageMapper->getPage();
+    $this->assertTrue($page instanceof SampleWebPage);
+  }
+
+  public function testGetInvalidWebPageDeepUri() {
+    $pageMap = [
+      'this' => [
+        'is' => [
+          'a' => [
+            'test' => SampleWebPage::class
+          ]
+        ]
+      ]
+    ];
+
+    Server::setDefault([Server::REQUEST_URI => '/this/is/a']);
+    $this->setExpectedException(HttpNotFound::class);
+    $pageMapper = new PageMapper($pageMap);
+    $page = $pageMapper->getPage();
+    $this->assertTrue($page instanceof SampleWebPage);
+  }
+
 }
