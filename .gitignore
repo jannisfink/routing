@@ -5,3 +5,6 @@
 /vendor/
 composer.phar
 composer.lock
+
+### PHPUnit ###
+phpunit.phar
