@@ -45,10 +45,12 @@ class Server implements WrapObject {
    */
   public static function get($key) {
     $array = $_SERVER;
-    if (static::$default !== null)
+    if (static::$default !== null) {
       $array = static::$default;
-    if (!array_key_exists($key, $array))
+    }
+    if (!array_key_exists($key, $array)) {
       throw new IllegalArgumentException($key . ' does not exist in the server array');
+    }
     return $array[$key];
   }
 
@@ -63,7 +65,7 @@ class Server implements WrapObject {
     $requestUri = self::get(self::REQUEST_URI);
     $requestUri = mb_split('\?', $requestUri)[0];
     $parts = mb_split('\/', $requestUri);
-    if (count($parts) && $parts[0] === '') {
+    if (count($parts) > 1 && $parts[0] === '') {
       $parts = array_slice($parts, 1);
     }
     return $parts;

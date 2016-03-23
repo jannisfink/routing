@@ -16,11 +16,17 @@
 namespace Yarf;
 
 use Yarf\exc\web\HttpNotFound;
+use Yarf\wrapper\Server;
 
 class RouterTest extends \PHPUnit_Framework_TestCase {
 
+  public function tearDown() {
+    Server::setDefault();
+  }
+
   public function testShowPageSetClassMap() {
     $testArray = array();
+    Server::setDefault([Server::REQUEST_URI => '']);
     Router::showPage($testArray);
 
     $this->assertEquals(Router::getClassMap(), $testArray);

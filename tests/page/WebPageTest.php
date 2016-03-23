@@ -33,22 +33,22 @@ class WebPageTest extends \PHPUnit_Framework_TestCase {
   }
 
   public function testGet() {
-    $this->setExpectedException(HttpMethodNotAllowed::class);
+    $this->expectException(HttpMethodNotAllowed::class);
     $this->samplePage->get();
   }
 
   public function testPost() {
-    $this->setExpectedException(HttpMethodNotAllowed::class);
+    $this->expectException(HttpMethodNotAllowed::class);
     $this->samplePage->post();
   }
 
   public function testPut() {
-    $this->setExpectedException(HttpMethodNotAllowed::class);
+    $this->expectException(HttpMethodNotAllowed::class);
     $this->samplePage->put();
   }
 
   public function testDelete() {
-    $this->setExpectedException(HttpMethodNotAllowed::class);
+    $this->expectException(HttpMethodNotAllowed::class);
     $this->samplePage->delete();
   }
 

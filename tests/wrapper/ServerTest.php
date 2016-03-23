@@ -21,7 +21,7 @@ use Yarf\exc\IllegalArgumentException;
 class ServerTest extends \PHPUnit_Framework_TestCase {
 
   public function tearDown() {
-    Server::setDefault(null);
+    Server::setDefault();
   }
 
   public function testSetDefault() {
@@ -33,7 +33,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase {
   }
 
   public function testGetKeyNotExistent() {
-    $this->setExpectedException(IllegalArgumentException::class);
+    $this->expectException(IllegalArgumentException::class);
     Server::setDefault(null);
     Server::get('test');
   }

@@ -15,15 +15,91 @@
 
 namespace Yarf\request;
 
-
+use Yarf\exc\web\HttpInternalServerError;
 use Yarf\exc\web\HttpNotFound;
+use Yarf\page\WebPage;
+use Yarf\wrapper\Server;
+
+class SampleWebPage extends WebPage {
+  // empty on purpose
+}
+
+class SampleWebPagePrivateConstructor extends WebPage {
+
+  private function __construct() {
+    // empty on purpose
+  }
+
+}
 
 class PageMapperTest extends \PHPUnit_Framework_TestCase {
 
-  public function testGetPageDefaultResult() {
-    // by now the method should always throw a 404
-    $this->setExpectedException(HttpNotFound::class);
+  public function tearDown() {
+    Server::setDefault();
+  }
+
+  public function testGetPageEmptyMap() {
+    // empty class map should always result in a 404
+    $this->expectException(HttpNotFound::class);
+    Server::setDefault([Server::REQUEST_URI => '/some/nonexistent/uri']);
     $pageMapper = new PageMapper([]);
+    $pageMapper->getPage();
+  }
+
+  public function testGetValidWebPageSimple() {
+    $pageMap = [
+      'test' => SampleWebPage::class
+    ];
+    Server::setDefault([Server::REQUEST_URI => '/test']);
+    $pageMapper = new PageMapper($pageMap);
+    $this->assertTrue($pageMapper->getPage() instanceof SampleWebPage);
+  }
+
+  public function testGetValidWebPageUriRootSlash() {
+    $pageMap = [
+      '' => SampleWebPage::class
+    ];
+    Server::setDefault([Server::REQUEST_URI => '/']);
+    $pageMapper = new PageMapper($pageMap);
+    $this->assertTrue($pageMapper->getPage() instanceof SampleWebPage);
+  }
+
+  public function testGetValidWebPageUriRootNoSlash() {
+    $pageMap = [
+      '' => SampleWebPage::class
+    ];
+    Server::setDefault([Server::REQUEST_URI => '']);
+    $pageMapper = new PageMapper($pageMap);
+    $this->assertTrue($pageMapper->getPage() instanceof SampleWebPage);
+  }
+
+  public function testGetWebPageFalseInstance() {
+    $this->expectException(HttpInternalServerError::class);
+    $pageMap = [
+      'test' => \Exception::class
+    ];
+    Server::setDefault([Server::REQUEST_URI => '/test']);
+    $pageMapper = new PageMapper($pageMap);
+    $pageMapper->getPage();
+  }
+
+  public function testGetWebPageInvalidClassName() {
+    $this->expectException(HttpInternalServerError::class);
+    $pageMap = [
+      'test' => 'I am not a class name'
+    ];
+    Server::setDefault([Server::REQUEST_URI => '/test']);
+    $pageMapper = new PageMapper($pageMap);
+    $pageMapper->getPage();
+  }
+
+  public function testGetValidWebPagePrivateConstructor() {
+    $this->expectException(HttpInternalServerError::class);
+    $pageMap = [
+      '' => SampleWebPagePrivateConstructor::class
+    ];
+    Server::setDefault([Server::REQUEST_URI => '/']);
+    $pageMapper = new PageMapper($pageMap);
     $pageMapper->getPage();
   }
 
