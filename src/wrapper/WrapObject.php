@@ -41,6 +41,6 @@ interface WrapObject {
    *
    * @param array $default
    */
-  public static function setDefault($default);
+  public static function setDefault(array $default = null);
 
 }
