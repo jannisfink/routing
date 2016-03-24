@@ -15,6 +15,7 @@
 
 namespace Yarf\request;
 
+use Yarf\exc\RoutingException;
 use Yarf\exc\web\HttpInternalServerError;
 use Yarf\exc\web\HttpNotFound;
 use Yarf\page\WebPage;
@@ -136,6 +137,59 @@ class PageMapperTest extends \PHPUnit_Framework_TestCase {
     $pageMapper = new PageMapper($pageMap);
     $page = $pageMapper->getPage();
     $this->assertTrue($page instanceof SampleWebPage);
+  }
+
+  public function testVariableUriParts() {
+    $pageMap = [
+      'a' => [
+        '{variable}' => [
+          'uri' => SampleWebPage::class
+        ]
+      ]
+    ];
+
+    Server::setDefault([Server::REQUEST_URI => '/a/test/uri']);
+
+    $pageMapper = new PageMapper($pageMap);
+    $page = $pageMapper->getPage();
+
+    $this->assertTrue($page instanceof SampleWebPage);
+    $this->assertEquals(['variable' => 'test'], $pageMapper->getUriVariables());
+  }
+
+  public function testMultipleVariableOneNode() {
+    $this->setExpectedException(RoutingException::class);
+    $pageMap = [
+      'a' => [
+        '{variable}' => [
+          'uri' => SampleWebPage::class
+        ],
+        '{secondVariable}' => [
+          'uri' => SampleWebPage::class
+        ]
+      ]
+    ];
+
+    Server::setDefault([Server::REQUEST_URI => '/a/test/uri']);
+
+    $pageMapper = new PageMapper($pageMap);
+    $pageMapper->getPage();
+  }
+
+  public function testMultipleVariableOnePath() {
+    $this->setExpectedException(RoutingException::class);
+    $pageMap = [
+      'a' => [
+        '{variable}' => [
+          '{variable}' => SampleWebPage::class
+        ]
+      ]
+    ];
+
+    Server::setDefault([Server::REQUEST_URI => '/a/test/uri']);
+
+    $pageMapper = new PageMapper($pageMap);
+    $pageMapper->getPage();
   }
 
 }

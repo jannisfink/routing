@@ -15,6 +15,7 @@
 
 namespace Yarf\request;
 
+use Yarf\exc\RoutingException;
 use Yarf\exc\web\HttpInternalServerError;
 use Yarf\exc\web\HttpNotFound;
 use Yarf\exc\web\WebException;
@@ -36,11 +37,17 @@ class PageMapper {
   private $pageMap;
 
   /**
+   * @var array variable parts of the url
+   */
+  private $uriVariables;
+
+  /**
    * PageMapper constructor.
    * @param array $pageMap the valid page map
    */
   public function __construct(array $pageMap) {
     $this->pageMap = $pageMap;
+    $this->uriVariables = [];
   }
 
   /**
@@ -58,6 +65,13 @@ class PageMapper {
   }
 
   /**
+   * @return array parts of the uri to be replaced by variables
+   */
+  public function getUriVariables() {
+    return $this->uriVariables;
+  }
+
+  /**
    * @param $pageMap array the page map for recursive calls
    * @param $uriParts array the uri parts
    * @return string|null matching page class name, if there is any, {@code null} else
@@ -66,9 +80,9 @@ class PageMapper {
     if (!count($uriParts)) {
       return null;
     }
-    $nextUriPart = $uriParts[0];
-    if (array_key_exists($nextUriPart, $pageMap)) {
-      $pageMapResult = $pageMap[$nextUriPart];
+    $nextKey = $this->uriKeyExists($uriParts[0], $pageMap);
+    if ($nextKey !== null) {
+      $pageMapResult = $pageMap[$nextKey];
       if (count($uriParts) === 1 && is_string($pageMapResult)) {
         return $pageMapResult;
       }
@@ -78,9 +92,41 @@ class PageMapper {
   }
 
   /**
+   * Checks, if there is a key in the page map for the given uri part. If there is a wildcard in the url,
+   * it will save the wildcard + it's value
+   *
+   * @param string $nextUriPart
+   * @param array $pageMap
+   * @return string|null the key, if there is any, {@code null} else
+   * @throws RoutingException if a variable in the url appears twice on a single part
+   */
+  private function uriKeyExists($nextUriPart, array $pageMap) {
+    if (array_key_exists($nextUriPart, $pageMap)) {
+      return $nextUriPart;
+    }
+    $keys = array_keys($pageMap);
+    $variableParts = preg_grep('/\{(.*)\}/', $keys);
+    $variablePartsCount = count($variableParts);
+    if ($variablePartsCount === 0) {
+      return null;
+    } elseif ($variablePartsCount > 1) {
+      throw new RoutingException('Single node has more than one variable key');
+    }
+    $variablePartRaw = $variableParts[0];
+    $variablePart = preg_replace(['/\{/', '/\}/'], '', $variablePartRaw);
+    if (array_key_exists($variablePart, $this->uriVariables)) {
+      throw new RoutingException('a key named ' . $variablePart . ' appears more than once on a single route');
+    }
+    $this->uriVariables[$variablePart] = $nextUriPart;
+    return $variablePartRaw;
+  }
+
+  /**
    * @param $className string the full qualified class name of a web page class
    * @return WebPage the web page instance for this class name
    * @throws HttpInternalServerError if the class name could not be mapped to a class or the class ist no {@code WebPage}
+   *
+   * TODO use RoutingException instead of HttpInternalServerError?
    */
   private function createWebPageFromClassName($className) {
     try {
