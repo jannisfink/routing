@@ -20,7 +20,7 @@ namespace Yarf\exc\web;
  *
  * To send a HTTP 404 Not Found header back to the client.
  *
- * @package JannisFink\routing\exc\web
+ * @package Yarf\exc\web
  */
 class HttpNotFound extends WebException {
 

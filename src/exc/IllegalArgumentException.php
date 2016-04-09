@@ -20,7 +20,7 @@ namespace Yarf\exc;
  *
  * Class to represent an illegal input for a function
  *
- * @package JannisFink\routing\exc
+ * @package Yarf\exc
  */
 class IllegalArgumentException extends BaseException {
 

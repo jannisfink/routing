@@ -22,7 +22,7 @@ use Yarf\exc\BaseException;
  *
  * Base class for all exceptions which should send a status code (different from 200, 301, 302 or 307) back to the client
  *
- * @package JannisFink\routing\exc\web
+ * @package Yarf\exc\web
  */
 abstract class WebException extends BaseException {
 

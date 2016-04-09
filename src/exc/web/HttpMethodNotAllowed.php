@@ -20,7 +20,7 @@ namespace Yarf\exc\web;
  *
  * To send a HTTP 405 Method Not allowed header back to the client.
  *
- * @package JannisFink\routing\exc\web
+ * @package Yarf\exc\web
  */
 class HttpMethodNotAllowed extends WebException {
 

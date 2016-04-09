@@ -23,7 +23,7 @@ use Yarf\exc\web\WebException;
  *
  * Base class for all web pages.
  *
- * @package JannisFink\routing\page
+ * @package Yarf\page
  */
 abstract class WebPage {
 

@@ -27,7 +27,7 @@ use Yarf\wrapper\Server;
  *
  * Gets a page map and extends it, if necessary
  *
- * @package JannisFink\routing\request
+ * @package Yarf\request
  */
 class PageMapper {
 

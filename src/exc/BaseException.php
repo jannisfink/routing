@@ -20,7 +20,7 @@ namespace Yarf\exc;
  *
  * Base class for all exceptions
  *
- * @package JannisFink\routing\exc
+ * @package Yarf\exc
  */
 abstract class BaseException extends \Exception {
 

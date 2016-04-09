@@ -22,7 +22,7 @@ use Yarf\exc\IllegalArgumentException;
  *
  * Defines a thin wrapper for any http context (like server, session, cookie...).
  *
- * @package JannisFink\routing\wrapper
+ * @package Yarf\wrapper
  */
 interface WrapObject {
 

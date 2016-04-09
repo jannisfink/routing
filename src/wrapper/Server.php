@@ -22,7 +22,7 @@ use Yarf\exc\IllegalArgumentException;
  *
  * Singleton to access all parameters stored in $_SERVER
  *
- * @package JannisFink\routing\wrapper
+ * @package Yarf\wrapper
  */
 class Server implements WrapObject {
 

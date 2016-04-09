@@ -31,9 +31,9 @@ use Yarf\request\PageMapper;
  *      'hello-world' => HelloWorld::class
  *    ]
  *
- *    JannisFink\routing\Router::showPage($pageMap);
+ *    Yarf\Router::showPage($pageMap);
  *
- * @package JannisFink\routing
+ * @package Yarf
  */
 class Router {
 
