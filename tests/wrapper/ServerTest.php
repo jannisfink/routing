@@ -58,4 +58,15 @@ class ServerTest extends \PHPUnit_Framework_TestCase {
     $this->assertEquals([''], Server::getRequestUriParts());
   }
 
+  public function testGetServerProtocolVersion() {
+    Server::setDefault([Server::SERVER_PROTOCOL => 'HTTP/1.1']);
+    $this->assertEquals('1.1', Server::getServerProtocolVersion());
+
+    Server::setDefault([Server::SERVER_PROTOCOL => 'http/1.1']);
+    $this->assertEquals('1.1', Server::getServerProtocolVersion());
+
+    Server::setDefault([Server::SERVER_PROTOCOL => '1.1']);
+    $this->assertEquals('1.1', Server::getServerProtocolVersion());
+  }
+
 }

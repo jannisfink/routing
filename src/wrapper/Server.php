@@ -30,6 +30,7 @@ class Server implements WrapObject {
    * all possible fields
    */
   const REQUEST_URI = 'REQUEST_URI';
+  const SERVER_PROTOCOL = 'SERVER_PROTOCOL';
 
   /**
    * @var array the default values
@@ -72,6 +73,14 @@ class Server implements WrapObject {
       $parts = array_slice($parts, 0, count($parts) - 1);
     }
     return $parts;
+  }
+
+  /**
+   * @return string a string containing the http version such as '1.1' or '2.0'
+   */
+  public static function getServerProtocolVersion() {
+    $version = self::get(self::SERVER_PROTOCOL);
+    return preg_replace('/HTTP\/|http\//', '', $version);
   }
 
   /**
