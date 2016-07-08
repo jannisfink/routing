@@ -31,6 +31,7 @@ class Server implements WrapObject {
    */
   const REQUEST_URI = 'REQUEST_URI';
   const SERVER_PROTOCOL = 'SERVER_PROTOCOL';
+  const REQUEST_METHOD = 'REQUEST_METHOD';
 
   /**
    * @var array the default values
@@ -81,6 +82,14 @@ class Server implements WrapObject {
   public static function getServerProtocolVersion() {
     $version = self::get(self::SERVER_PROTOCOL);
     return preg_replace('/HTTP\/|http\//', '', $version);
+  }
+
+  /**
+   * @return string the request method used for the current request. All lowercase
+   */
+  public static function getRequestMethod() {
+    $requestMethod = self::get(self::REQUEST_METHOD);
+    return strtolower($requestMethod);
   }
 
   /**

@@ -69,4 +69,9 @@ class ServerTest extends \PHPUnit_Framework_TestCase {
     $this->assertEquals('1.1', Server::getServerProtocolVersion());
   }
 
+  public function testGetRequestMethod() {
+    Server::setDefault([Server::REQUEST_METHOD => 'GET']);
+    $this->assertEquals(Server::getRequestMethod(), 'get');
+  }
+
 }
