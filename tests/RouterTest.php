@@ -15,7 +15,6 @@
 
 namespace Yarf;
 
-use Yarf\exc\web\HttpNotFound;
 use Yarf\wrapper\Server;
 
 class RouterTest extends \PHPUnit_Framework_TestCase {
@@ -30,16 +29,6 @@ class RouterTest extends \PHPUnit_Framework_TestCase {
     Router::showPage($testArray);
 
     $this->assertEquals(Router::getClassMap(), $testArray);
-  }
-
-  public function testSetHeader() {
-    Router::getOutput(null, new HttpNotFound());
-    $this->assertEquals(404, http_response_code());
-  }
-
-  public function testGetOutput() {
-    $output = Router::getOutput(null, new HttpNotFound());
-    $this->assertEquals('<h1>HTTP 404</h1><br><br>Not Found', $output);
   }
 
 }

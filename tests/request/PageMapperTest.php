@@ -33,10 +33,10 @@ class PageMapperTest extends \PHPUnit_Framework_TestCase {
 
   public function testGetPageEmptyMap() {
     // empty class map should always result in a 404
-    $this->setExpectedException(HttpNotFound::class);
     Server::setDefault([Server::REQUEST_URI => '/some/nonexistent/uri']);
     $pageMapper = new PageMapper([]);
-    $pageMapper->getPage();
+    $page = $pageMapper->getPage();
+    $this->assertNull($page);
   }
 
   public function testGetValidWebPageSimple() {
@@ -115,10 +115,9 @@ class PageMapperTest extends \PHPUnit_Framework_TestCase {
     ];
 
     Server::setDefault([Server::REQUEST_URI => '/this/is/a']);
-    $this->setExpectedException(HttpNotFound::class);
     $pageMapper = new PageMapper($pageMap);
     $page = $pageMapper->getPage();
-    $this->assertTrue($page instanceof SampleWebPage);
+    $this->assertNull($page);
   }
 
   public function testVariableUriParts() {

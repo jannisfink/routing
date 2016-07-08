@@ -59,7 +59,7 @@ class PageMapper {
   public function getPage() {
     $page = $this->traverse($this->pageMap, Server::getRequestUriParts());
     if ($page === null) {
-      throw new HttpNotFound();
+      return null;
     }
     return $this->createWebPageFromClassName($page);
   }

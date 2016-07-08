@@ -37,6 +37,14 @@ abstract class WebPage {
    * the subclasses.
    */
   public final function __construct() {
+    // empty on purpose
+  }
+
+  /**
+   * @return string the content type of this page
+   */
+  public function getContentType() {
+    return static::CONTENT_TYPE;
   }
 
   /**
