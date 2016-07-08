@@ -28,6 +28,18 @@ use Yarf\exc\web\WebException;
 abstract class WebPage {
 
   /**
+   * @const string content type of this website
+   */
+  const CONTENT_TYPE = null;
+
+  /**
+   * WebPage constructor. This constructor is final on purpose to disallow any constructor for
+   * the subclasses.
+   */
+  public final function __construct() {
+  }
+
+  /**
    * Method mapping to the HTTP GET method
    *
    * @throws WebException if anything goes wrong
@@ -60,6 +72,15 @@ abstract class WebPage {
    * @throws WebException if anything goes wrong
    */
   public function delete() {
+    throw new HttpMethodNotAllowed();
+  }
+
+  /**
+   * Method mapping to the HTTP PATCH method
+   *
+   * @throws WebException if anything goes wrong
+   */
+  public function patch() {
     throw new HttpMethodNotAllowed();
   }
 

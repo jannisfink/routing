@@ -25,14 +25,6 @@ class SampleWebPage extends WebPage {
   // empty on purpose
 }
 
-class SampleWebPagePrivateConstructor extends WebPage {
-
-  private function __construct() {
-    // empty on purpose
-  }
-
-}
-
 class PageMapperTest extends \PHPUnit_Framework_TestCase {
 
   public function tearDown() {
@@ -90,16 +82,6 @@ class PageMapperTest extends \PHPUnit_Framework_TestCase {
       'test' => 'I am not a class name'
     ];
     Server::setDefault([Server::REQUEST_URI => '/test']);
-    $pageMapper = new PageMapper($pageMap);
-    $pageMapper->getPage();
-  }
-
-  public function testGetValidWebPagePrivateConstructor() {
-    $this->setExpectedException(HttpInternalServerError::class);
-    $pageMap = [
-      '' => SampleWebPagePrivateConstructor::class
-    ];
-    Server::setDefault([Server::REQUEST_URI => '/']);
     $pageMapper = new PageMapper($pageMap);
     $pageMapper->getPage();
   }
