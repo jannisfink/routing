@@ -11,3 +11,6 @@ phpunit.phar
 
 ### Clover ###
 /build
+
+### Documentation ###
+/docs
