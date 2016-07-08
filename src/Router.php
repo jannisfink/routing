@@ -82,4 +82,13 @@ class Router {
     self::$test = true;
   }
 
+  /**
+   * Checks, if this run is a test run.
+   *
+   * @return bool {@code true} for test run, {@code false} else
+   */
+  public static final function isTestRun() {
+    return self::$test;
+  }
+
 }

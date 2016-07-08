@@ -21,6 +21,7 @@ use Yarf\exc\web\HttpNotFound;
 use Yarf\exc\web\WebException;
 use Yarf\page\JsonPage;
 use Yarf\page\WebPage;
+use Yarf\Router;
 use Yarf\wrapper\Server;
 
 /**
@@ -81,6 +82,10 @@ class PageResolver {
    * such as the content type or the status code.
    */
   public function createHeader() {
+    if (Router::isTestRun()) {
+      return;
+    }
+
     if ($this->thrownWebException === null) {
       http_response_code(self::DEFAULT_RESPONSE_CODE);
     } else {
