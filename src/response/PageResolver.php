@@ -80,6 +80,8 @@ class PageResolver {
   /**
    * Method to set all necessary fields for the response header,
    * such as the content type or the status code.
+   *
+   * This function will do nothing if this is a test run
    */
   public function createHeader() {
     if (Router::isTestRun()) {
