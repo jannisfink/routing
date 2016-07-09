@@ -58,7 +58,7 @@ class Router {
     $pageMapper = new PageMapper(self::getClassMap());
     $page = $pageMapper->getPage();
 
-    $pageResolver = new PageResolver($page, $errorMap);
+    $pageResolver = new PageResolver($page, $pageMapper->getUriVariables(), $errorMap);
     $echo = $pageResolver->getRequestBody();
     $pageResolver->createHeader();
 

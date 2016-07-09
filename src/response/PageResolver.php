@@ -41,6 +41,8 @@ class PageResolver {
 
   private $errorMap;
 
+  private $uriVariables;
+
   /**
    * @var WebException
    */
@@ -51,7 +53,7 @@ class PageResolver {
    */
   private $rawRequestBody;
 
-  public function __construct(WebPage $webPage = null, array $errorMap = null) {
+  public function __construct(WebPage $webPage = null, array $uriVariables = null, array $errorMap = null) {
     $this->webPage = $webPage;
     $this->errorMap = $errorMap;
   }
@@ -71,7 +73,7 @@ class PageResolver {
     }
 
     try {
-      $this->rawRequestBody = call_user_func([$this->webPage, $requestMethod]);
+      $this->rawRequestBody = $this->webPage->{$requestMethod}(...array_values($this->uriVariables));
     } catch (WebException $e) {
       $this->thrownWebException = $e;
     }
