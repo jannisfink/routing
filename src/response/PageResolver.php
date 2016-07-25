@@ -58,6 +58,7 @@ class PageResolver {
   public function __construct(WebPage $webPage = null, array $uriVariables = null, array $errorMap = null) {
     $this->webPage = $webPage;
     $this->errorMap = $errorMap;
+    $this->uriVariables = $uriVariables;
     $this->evaluated = false;
   }
 
@@ -80,9 +81,9 @@ class PageResolver {
     try {
       // try call to render first. If its overwritten, use its result.
       try {
-        $this->rawRequestBody = call_user_func_array($this->webPage->render, $uriValues);
+        $this->rawRequestBody = call_user_func_array([$this->webPage, "render"], $uriValues);
       } catch (HttpMethodNotAllowed $e) {
-        $this->rawRequestBody = call_user_func_array($this->webPage->{$requestMethod}, $uriValues);
+        $this->rawRequestBody = call_user_func_array([$this->webPage, $requestMethod], $uriValues);
       }
     } catch (WebException $e) {
       $this->thrownWebException = $e;
