@@ -59,8 +59,8 @@ class Router {
     $page = $pageMapper->getPage();
 
     $pageResolver = new PageResolver($page, $pageMapper->getUriVariables(), $errorMap);
-    $echo = $pageResolver->getRequestBody();
     $pageResolver->createHeader();
+    $echo = $pageResolver->getRequestBody();
 
     // do not print if this is a test
     if (!self::$test) {

@@ -48,7 +48,18 @@ abstract class WebPage {
   }
 
   /**
+   * @return mixed the page content
+   *
+   * @throws WebException if anything goes wrong
+   */
+  public function render() {
+    throw new HttpMethodNotAllowed();
+  }
+
+  /**
    * Method mapping to the HTTP GET method
+   * 
+   * @return mixed the page content
    *
    * @throws WebException if anything goes wrong
    */
@@ -58,6 +69,8 @@ abstract class WebPage {
 
   /**
    * Method mapping to the HTTP POST method
+   * 
+   * @return mixed the page content
    *
    * @throws WebException if anything goes wrong
    */
@@ -67,6 +80,8 @@ abstract class WebPage {
 
   /**
    * Method mapping to the HTTP PUT method
+   * 
+   * @return mixed the page content
    *
    * @throws WebException if anything goes wrong
    */
@@ -76,6 +91,8 @@ abstract class WebPage {
 
   /**
    * Method mapping to the HTTP DELETE method
+   * 
+   * @return mixed the page content
    *
    * @throws WebException if anything goes wrong
    */
@@ -85,6 +102,8 @@ abstract class WebPage {
 
   /**
    * Method mapping to the HTTP PATCH method
+   * 
+   * @return mixed the page content
    *
    * @throws WebException if anything goes wrong
    */

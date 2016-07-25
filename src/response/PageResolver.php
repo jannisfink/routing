@@ -75,8 +75,15 @@ class PageResolver {
       $this->thrownWebException = new HttpMethodNotAllowed();
     }
 
+    $uriValues = array_values($this->uriVariables);
+
     try {
-      $this->rawRequestBody = $this->webPage->{$requestMethod}(...array_values($this->uriVariables));
+      // try call to render first. If its overwritten, use its result.
+      try {
+        $this->rawRequestBody = call_user_func_array($this->webPage->render, $uriValues);
+      } catch (HttpMethodNotAllowed $e) {
+        $this->rawRequestBody = call_user_func_array($this->webPage->{$requestMethod}, $uriValues);
+      }
     } catch (WebException $e) {
       $this->thrownWebException = $e;
     }
