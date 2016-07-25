@@ -86,7 +86,9 @@ class PageMapper {
       if (count($uriParts) === 1 && is_string($pageMapResult)) {
         return $pageMapResult;
       }
-      return $this->traverse($pageMapResult, array_slice($uriParts, 1));
+      if (is_array($pageMapResult)) {
+        return $this->traverse($pageMapResult, array_slice($uriParts, 1));
+      }
     }
     return null;
   }
