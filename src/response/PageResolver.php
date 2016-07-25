@@ -43,6 +43,8 @@ class PageResolver {
 
   private $uriVariables;
 
+  private $evaluated;
+
   /**
    * @var WebException
    */
@@ -56,6 +58,7 @@ class PageResolver {
   public function __construct(WebPage $webPage = null, array $uriVariables = null, array $errorMap = null) {
     $this->webPage = $webPage;
     $this->errorMap = $errorMap;
+    $this->evaluated = false;
   }
 
   public function evaluateWebPage() {
@@ -77,6 +80,8 @@ class PageResolver {
     } catch (WebException $e) {
       $this->thrownWebException = $e;
     }
+
+    $this->evaluated = true;
   }
 
   /**
@@ -111,6 +116,10 @@ class PageResolver {
    * @return string the evaluated request body
    */
   public function getRequestBody() {
+    if (!$this->evaluated) {
+      $this->evaluateWebPage();
+    }
+
     if ($this->webPage instanceof JsonPage) {
       return json_encode($this->rawRequestBody);
     } else {
