@@ -24,14 +24,10 @@ namespace Yarf\exc\web;
  */
 class HttpNotFound extends WebException {
 
+  const STATUS_CODE = 404;
+
   public function __construct() {
     parent::__construct('Not Found');
   }
 
-  /**
-   * @return int the status code for this return type
-   */
-  public function getStatusCode() {
-    return 404;
-  }
 }

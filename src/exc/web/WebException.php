@@ -27,8 +27,15 @@ use Yarf\exc\BaseException;
 abstract class WebException extends BaseException {
 
   /**
+   * the pages status code
+   */
+  const STATUS_CODE = -1;
+
+  /**
    * @return int the status code for this return type
    */
-  abstract public function getStatusCode();
+  public final function getStatusCode() {
+    return static::STATUS_CODE;
+  }
 
 }

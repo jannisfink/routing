@@ -24,14 +24,10 @@ namespace Yarf\exc\web;
  */
 class HttpMethodNotAllowed extends WebException {
 
+  const STATUS_CODE = 405;
+
   public function __construct() {
     parent::__construct('Method not allowed');
   }
 
-  /**
-   * @return int the status code for this return type
-   */
-  public function getStatusCode() {
-    return 405;
-  }
 }

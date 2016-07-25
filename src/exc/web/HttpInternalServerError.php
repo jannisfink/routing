@@ -24,14 +24,10 @@ namespace Yarf\exc\web;
  */
 class HttpInternalServerError extends WebException {
 
+  const STATUS_CODE = 500;
+
   public function __construct() {
     parent::__construct('Internal server error');
   }
 
-  /**
-   * @return int the status code for this return type
-   */
-  public function getStatusCode() {
-    return 500;
-  }
 }
