@@ -20,7 +20,7 @@ class HttpGone extends WebException {
 
   const STATUS_CODE = 410;
 
-  public function __construct($details) {
+  public function __construct($details = null) {
     parent::__construct("Gone", $details);
   }
 

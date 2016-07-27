@@ -26,7 +26,7 @@ class HttpNotFound extends WebException {
 
   const STATUS_CODE = 404;
 
-  public function __construct($details) {
+  public function __construct($details = null) {
     parent::__construct('Not Found', $details);
   }
 

@@ -20,7 +20,7 @@ class HttpForbidden extends WebException {
 
   const STATUS_CODE = 403;
 
-  public function __construct($details) {
+  public function __construct($details = null) {
     parent::__construct("Forbidden", $details);
   }
 

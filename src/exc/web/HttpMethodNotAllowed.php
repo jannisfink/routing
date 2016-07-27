@@ -26,7 +26,7 @@ class HttpMethodNotAllowed extends WebException {
 
   const STATUS_CODE = 405;
 
-  public function __construct($details) {
+  public function __construct($details = null) {
     parent::__construct('Method Not Allowed', $details);
   }
 

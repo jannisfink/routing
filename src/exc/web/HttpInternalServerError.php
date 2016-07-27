@@ -26,7 +26,7 @@ class HttpInternalServerError extends WebException {
 
   const STATUS_CODE = 500;
 
-  public function __construct($details) {
+  public function __construct($details = null) {
     parent::__construct('Internal Server Error', $details);
   }
 

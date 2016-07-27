@@ -20,7 +20,7 @@ class HttpBadRequest extends WebException {
 
   const STATUS_CODE = 400;
 
-  public function __construct($message, $details) {
+  public function __construct($details = null) {
     parent::__construct("Bad Request", $details);
   }
 

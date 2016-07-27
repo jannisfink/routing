@@ -20,7 +20,7 @@ class HttpServiceUnavailable extends WebException {
 
   const STATUS_CODE = 503;
 
-  public function __construct($details) {
+  public function __construct($details = null) {
     parent::__construct("Service Unavailable", $details);
   }
 

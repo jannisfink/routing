@@ -20,7 +20,7 @@ class HttpUnauthorized extends WebException {
 
   const STATUS_CODE = 401;
 
-  public function __construct($details) {
+  public function __construct($details = null) {
     parent::__construct("Unauthorized", $details);
   }
 
