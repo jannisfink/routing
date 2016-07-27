@@ -37,10 +37,11 @@ class ErrorPage {
     $statusCode = $exception->getStatusCode();
     $details = $exception->getDetails() === null ? "" : $exception->getDetails();
     return "
+      <!DOCTYPE html>
       <html>
         <head><title>$message</title></head>
         <body>
-          <h1>HTTP $statusCode: $message</h1>#
+          <h1>HTTP $statusCode: $message</h1>
           <p>$details</p>
         </body>
       </html>
@@ -54,12 +55,11 @@ class ErrorPage {
    * @return string json representation of the given exception
    */
   public function json(WebException $exception) {
-    $result = [
+    return [
       "statusCode" => $exception->getStatusCode(),
       "message" => $exception->getMessage(),
       "details" => $exception->getDetails()
     ];
-    return json_encode($result);
   }
 
   /**

@@ -68,6 +68,7 @@ class PageResolver {
 
     if ($this->webPage === null) {
       $this->thrownWebException = new HttpNotFound();
+      $this->rawRequestBody = $this->createRequestBodyFromException();
       return;
     }
 
@@ -77,6 +78,8 @@ class PageResolver {
     if (!$reflectionObject->hasMethod($requestMethod)) {
       // we currently not support the given http method
       $this->thrownWebException = new HttpMethodNotAllowed();
+      $this->rawRequestBody = $this->createRequestBodyFromException();
+      return;
     }
 
     $uriValues = array_values($this->uriVariables);
@@ -98,14 +101,15 @@ class PageResolver {
     $statusCode = $this->thrownWebException->getStatusCode();
     $errorPage = array_key_exists($statusCode, $this->errorMap) ? $this->errorMap[$statusCode] :
       $this->errorMap[WebException::STATUS_CODE];
+    $errorPage = new $errorPage();
 
     switch ($this->getContentType()) {
       case JsonPage::CONTENT_TYPE:
-            return $errorPage->json();
+            return $errorPage->json($this->thrownWebException);
       case TextPage::CONTENT_TYPE:
-            return $errorPage->text();
+            return $errorPage->text($this->thrownWebException);
       default:
-            return $errorPage->html();
+            return $errorPage->html($this->thrownWebException);
     }
   }
 
