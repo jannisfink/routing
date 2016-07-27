@@ -20,6 +20,7 @@ use Yarf\exc\web\HttpMethodNotAllowed;
 use Yarf\exc\web\HttpNotFound;
 use Yarf\exc\web\WebException;
 use Yarf\page\JsonPage;
+use Yarf\page\TextPage;
 use Yarf\page\WebPage;
 use Yarf\Router;
 use Yarf\wrapper\Server;
@@ -63,6 +64,8 @@ class PageResolver {
   }
 
   public function evaluateWebPage() {
+    $this->evaluated = true;
+
     if ($this->webPage === null) {
       $this->thrownWebException = new HttpNotFound();
       return;
@@ -87,9 +90,23 @@ class PageResolver {
       }
     } catch (WebException $e) {
       $this->thrownWebException = $e;
+      $this->rawRequestBody = $this->createRequestBodyFromException();
     }
+  }
 
-    $this->evaluated = true;
+  private function createRequestBodyFromException() {
+    $statusCode = $this->thrownWebException->getStatusCode();
+    $errorPage = array_key_exists($statusCode, $this->errorMap) ? $this->errorMap[$statusCode] :
+      $this->errorMap[WebException::STATUS_CODE];
+
+    switch ($this->getContentType()) {
+      case JsonPage::CONTENT_TYPE:
+            return $errorPage->json();
+      case TextPage::CONTENT_TYPE:
+            return $errorPage->text();
+      default:
+            return $errorPage->html();
+    }
   }
 
   /**
@@ -103,19 +120,30 @@ class PageResolver {
       return;
     }
 
-    if ($this->thrownWebException === null) {
-      http_response_code(self::DEFAULT_RESPONSE_CODE);
-    } else {
-      http_response_code($this->thrownWebException->getStatusCode());
-    }
+    http_response_code($this->getStatusCode());
+    header("Content-type:" . $this->getContentType());
+  }
 
-    $contentType = null;
+  /**
+   * @return string the content type for this page based on the content type of the webpage you want to show
+   */
+  public function getContentType() {
     if ($this->webPage === null) {
-      $contentType = self::DEFAULT_CONTENT_TYPE;
+      return self::DEFAULT_CONTENT_TYPE;
     } else {
-      $contentType = $this->webPage->getContentType();
+      return $this->webPage->getContentType();
     }
-    header("Content-type:" . $contentType);
+  }
+
+  /**
+   * @return int the status code for this page, based on a thrown exception or a default one, if no exception was thrown
+   */
+  public function getStatusCode() {
+    if ($this->thrownWebException === null) {
+       return self::DEFAULT_RESPONSE_CODE;
+    } else {
+      return $this->thrownWebException->getStatusCode();
+    }
   }
 
   /**
