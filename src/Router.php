@@ -15,6 +15,8 @@
 
 namespace Yarf;
 
+use Yarf\exc\web\WebException;
+use  Yarf\page\error\ErrorPage;
 use Yarf\request\PageMapper;
 use Yarf\response\PageResolver;
 
@@ -36,6 +38,10 @@ use Yarf\response\PageResolver;
  */
 class Router {
 
+  private static $defaultErrorMap = array(
+    WebException::STATUS_CODE => ErrorPage::class
+  );
+
   /**
    * @var bool
    */
@@ -47,6 +53,11 @@ class Router {
   private static $classMap;
 
   /**
+   * @var array the error map
+   */
+  private static $errorMap;
+
+  /**
    * Main API method to show a page.
    *
    * @param $classMap array an associative array which maps all wanted urls to the given classname
@@ -54,11 +65,12 @@ class Router {
    */
   public static function showPage(array $classMap, array $errorMap = null) {
     self::$classMap = $classMap;
+    self::$errorMap = $errorMap === null ? self::$defaultErrorMap : array_merge(self::$defaultErrorMap, $errorMap);
 
     $pageMapper = new PageMapper(self::getClassMap());
     $page = $pageMapper->getPage();
 
-    $pageResolver = new PageResolver($page, $pageMapper->getUriVariables(), $errorMap);
+    $pageResolver = new PageResolver($page, $pageMapper->getUriVariables(), self::$errorMap);
     $pageResolver->evaluateWebPage();
     $pageResolver->createHeader();
     $echo = $pageResolver->getRequestBody();

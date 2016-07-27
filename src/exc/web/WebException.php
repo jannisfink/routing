@@ -29,13 +29,33 @@ abstract class WebException extends BaseException {
   /**
    * the pages status code
    */
-  const STATUS_CODE = -1;
+  const STATUS_CODE = 0;
+
+  private $details;
+
+  /**
+   * WebException constructor.
+   *
+   * @param string $message message for this error as defined in RFC 2616
+   * @param string $details details for this error
+   */
+  public function __construct($message, $details = null) {
+    parent::__construct($message);
+    $this->details = $details;
+  }
 
   /**
    * @return int the status code for this return type
    */
   public final function getStatusCode() {
     return static::STATUS_CODE;
+  }
+
+  /**
+   * @return null|string details for this error, {@code null} if none given
+   */
+  public function getDetails() {
+    return $this->details;
   }
 
 }
