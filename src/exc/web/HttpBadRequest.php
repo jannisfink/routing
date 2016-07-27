@@ -15,19 +15,13 @@
 
 namespace Yarf\exc\web;
 
-/**
- * Class HttpMethodNotAllowed
- *
- * To send a HTTP 405 Method Not allowed header back to the client.
- *
- * @package Yarf\exc\web
- */
-class HttpMethodNotAllowed extends WebException {
 
-  const STATUS_CODE = 405;
+class HttpBadRequest extends WebException {
 
-  public function __construct($details) {
-    parent::__construct('Method Not Allowed', $details);
+  const STATUS_CODE = 400;
+
+  public function __construct($message, $details) {
+    parent::__construct("Bad Request", $details);
   }
 
 }
