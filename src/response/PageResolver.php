@@ -66,25 +66,21 @@ class PageResolver {
   public function evaluateWebPage() {
     $this->evaluated = true;
 
-    if ($this->webPage === null) {
-      $this->thrownWebException = new HttpNotFound();
-      $this->rawRequestBody = $this->createRequestBodyFromException();
-      return;
-    }
+    try {
 
-    $requestMethod = Server::getRequestMethod();
-    $reflectionObject = new \ReflectionObject($this->webPage);
+      if ($this->webPage === null) {
+        throw new HttpNotFound();
+      }
 
-    if (!$reflectionObject->hasMethod($requestMethod)) {
-      // we currently not support the given http method
-      $this->thrownWebException = new HttpMethodNotAllowed();
-      $this->rawRequestBody = $this->createRequestBodyFromException();
-      return;
-    }
+      $requestMethod = Server::getRequestMethod();
+      $reflectionObject = new \ReflectionObject($this->webPage);
+
+      if (!$reflectionObject->hasMethod($requestMethod)) {
+        // we currently not support the given http method
+        throw new HttpMethodNotAllowed();
+      }
 
     $uriValues = array_values($this->uriVariables);
-
-    try {
       // try call to render first. If its overwritten, use its result.
       try {
         $this->rawRequestBody = call_user_func_array([$this->webPage, "render"], $uriValues);
