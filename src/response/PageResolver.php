@@ -66,11 +66,7 @@ class PageResolver {
   public function evaluateWebPage() {
     $this->evaluated = true;
 
-    if ($this->webPage === null) {
-      $this->thrownWebException = new HttpNotFound();
-      $this->rawRequestBody = $this->createRequestBodyFromException();
-      return;
-    }
+    try {
 
     try {
       $renderer = new PageRenderer($this->webPage, $this->uriVariables);
