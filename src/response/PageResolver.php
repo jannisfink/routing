@@ -72,25 +72,9 @@ class PageResolver {
       return;
     }
 
-    $requestMethod = Server::getRequestMethod();
-    $reflectionObject = new \ReflectionObject($this->webPage);
-
-    if (!$reflectionObject->hasMethod($requestMethod)) {
-      // we currently not support the given http method
-      $this->thrownWebException = new HttpMethodNotAllowed();
-      $this->rawRequestBody = $this->createRequestBodyFromException();
-      return;
-    }
-
-    $uriValues = array_values($this->uriVariables);
-
     try {
-      // try call to render first. If its overwritten, use its result.
-      try {
-        $this->rawRequestBody = call_user_func_array([$this->webPage, "render"], $uriValues);
-      } catch (HttpMethodNotAllowed $e) {
-        $this->rawRequestBody = call_user_func_array([$this->webPage, $requestMethod], $uriValues);
-      }
+      $renderer = new PageRenderer($this->webPage, $this->uriVariables);
+      return $renderer->evaluatePage();
     } catch (WebException $e) {
       $this->thrownWebException = $e;
       $this->rawRequestBody = $this->createRequestBodyFromException();
