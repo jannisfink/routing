@@ -83,6 +83,7 @@ class PageResolver {
       $renderer = new PageRenderer($this->webPage, $this->uriVariables);
       $this->rawRequestBody = $renderer->evaluatePage();
     } catch (WebException $e) {
+      // FIXME this is ugly
       $this->thrownWebException = $e;
       $this->rawRequestBody = $this->createRequestBodyFromException();
     }
