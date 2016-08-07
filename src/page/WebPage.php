@@ -72,7 +72,7 @@ abstract class WebPage {
    * This function is used to initialize this pages context. It is an alternative for the construrtor,
    * since the constructor is final
    */
-  public function initalize() {
+  public function initialize() {
     // empty on purpose
   }
 
