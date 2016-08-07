@@ -64,8 +64,16 @@ abstract class WebPage {
    *
    * @return bool {@code true} if the user should see a `HTTP 403 - Forbidden`, {@code false} else
    */
-  public function showForbiddenWithoutPermissions() {
+  public function showForbiddenWithoutPermission() {
     return true;
+  }
+
+  /**
+   * This function is used to initialize this pages context. It is an alternative for the construrtor,
+   * since the constructor is final
+   */
+  public function initalize() {
+    // empty on purpose
   }
 
   /**

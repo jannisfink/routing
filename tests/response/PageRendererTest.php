@@ -28,7 +28,7 @@ class PageWithNoPermission extends HtmlPage {
 }
 
 class PageWithNoPermissionNotFound extends PageWithNoPermission {
-  public function showForbiddenWithoutPermissions() {
+  public function showForbiddenWithoutPermission() {
     return false;
   }
 }

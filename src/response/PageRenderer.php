@@ -35,6 +35,8 @@ class PageRenderer {
 
   const FALLBACK_FUNCTION = "render";
 
+  const INITIALIZE_FUNCTION = "initialize";
+
   private $webPage;
 
   private $uriVariables;
@@ -68,6 +70,10 @@ class PageRenderer {
 
     $this->evaluatePermissions();
 
+    // initialize the page
+    $initializeParameters = $this->getParametersForMethod($reflectionObject->getMethod(self::INITIALIZE_FUNCTION));
+    call_user_func_array([$this->webPage, self::INITIALIZE_FUNCTION], $initializeParameters);
+
     $renderParameters = $this->getParametersForMethod($reflectionObject->getMethod(self::FALLBACK_FUNCTION));
     try {
       return call_user_func_array([$this->webPage, self::FALLBACK_FUNCTION], $renderParameters);
@@ -88,7 +94,7 @@ class PageRenderer {
    */
   private function evaluatePermissions() {
     if (!$this->webPage->checkPermission()) {
-      if ($this->webPage->showForbiddenWithoutPermissions()) {
+      if ($this->webPage->showForbiddenWithoutPermission()) {
         throw new HttpForbidden();
       } else {
         throw new HttpNotFound();
