@@ -129,6 +129,7 @@ class PageResolver {
    */
   public function getContentType() {
     if ($this->webPage === null) {
+      // FIXME use content type given in request?
       return self::DEFAULT_CONTENT_TYPE;
     } else {
       return $this->webPage->getContentType();
