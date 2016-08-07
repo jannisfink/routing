@@ -17,6 +17,7 @@ namespace Yarf\response;
 
 
 use Yarf\exc\web\HttpMethodNotAllowed;
+use Yarf\exc\web\HttpNotFound;
 use Yarf\exc\web\WebException;
 use Yarf\page\WebPage;
 use Yarf\wrapper\Server;
@@ -42,7 +43,7 @@ class PageRenderer {
    * @param WebPage $page the webpage to show
    * @param string[] $uriVariables variables on this route as an associative array
    */
-  public function __construct(WebPage $page, array $uriVariables) {
+  public function __construct(WebPage $page = null, array $uriVariables) {
     $this->webPage = $page;
     $this->uriVariables = $uriVariables;
   }
@@ -53,6 +54,10 @@ class PageRenderer {
    * @throws WebException if anything goes wrong
    */
   public function evaluatePage() {
+    if ($this->webPage == null) {
+      throw new HttpNotFound();
+    }
+
     $requestMethod = Server::getRequestMethod();
     $reflectionObject = new \ReflectionObject($this->webPage);
 

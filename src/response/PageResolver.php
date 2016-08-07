@@ -67,10 +67,8 @@ class PageResolver {
     $this->evaluated = true;
 
     try {
-
-    try {
       $renderer = new PageRenderer($this->webPage, $this->uriVariables);
-      return $renderer->evaluatePage();
+      $this->rawRequestBody = $renderer->evaluatePage();
     } catch (WebException $e) {
       $this->thrownWebException = $e;
       $this->rawRequestBody = $this->createRequestBodyFromException();

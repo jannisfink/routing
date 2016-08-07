@@ -25,7 +25,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase {
 
   public function testShowPageSetClassMap() {
     $testArray = array();
-    Server::setDefault([Server::REQUEST_URI => '']);
+    Server::setDefault([Server::REQUEST_URI => '', Server::REQUEST_METHOD => 'get']);
     Router::showPage($testArray);
 
     $this->assertEquals(Router::getClassMap(), $testArray);
