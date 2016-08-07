@@ -16,6 +16,7 @@
 namespace Yarf\response;
 
 
+use Yarf\exc\web\HttpForbidden;
 use Yarf\exc\web\HttpMethodNotAllowed;
 use Yarf\exc\web\HttpNotFound;
 use Yarf\exc\web\WebException;
@@ -65,6 +66,8 @@ class PageRenderer {
       throw new HttpMethodNotAllowed();
     }
 
+    $this->evaluatePermissions();
+
     $renderParameters = $this->getParametersForMethod($reflectionObject->getMethod(self::FALLBACK_FUNCTION));
     try {
       return call_user_func_array([$this->webPage, self::FALLBACK_FUNCTION], $renderParameters);
@@ -75,6 +78,22 @@ class PageRenderer {
     $requestMethodParameters = $this->getParametersForMethod($reflectionObject->getMethod($requestMethod));
     return call_user_func_array([$this->webPage, $requestMethod], $requestMethodParameters);
 
+  }
+
+  /**
+   * This function checks, if the current user has the permission to view the requested page. If not, it will
+   * raise an appropriate exception to be catched by the router.
+   *
+   * @throws WebException if the user has no permission to view the requested page
+   */
+  private function evaluatePermissions() {
+    if (!$this->webPage->checkPermission()) {
+      if ($this->webPage->showForbiddenWithoutPermissions()) {
+        throw new HttpForbidden();
+      } else {
+        throw new HttpNotFound();
+      }
+    }
   }
 
   /**

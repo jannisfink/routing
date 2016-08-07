@@ -72,7 +72,7 @@ class Router {
    * @param $classMap array an associative array which maps all wanted urls to the given classname
    * @param $errorMap array an array with numeric keys mapping one http statuscode.
    *
-   * @deprecated use {@code Router::route} instead
+   * @deprecated use `route` instead
    */
   public function showPage(array $classMap, array $errorMap = null) {
     $this->route($classMap, $errorMap);

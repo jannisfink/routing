@@ -48,6 +48,27 @@ abstract class WebPage {
   }
 
   /**
+   * This function is calld once for each request to check, if the current user has the permission to
+   * view the requested page. If this funtion returns {@code false}, the response will be either
+   * a `HTTP 403 - Forbidden` or a `404 - Not Found`, depending on the result of `showForbiddenWithoutPermissions`
+   *
+   * @return bool {@code true}, if the user is allowed to view this page, {@code false} else
+   */
+  public function checkPermission() {
+    return true;
+  }
+
+  /**
+   * If the user should see a `HTTP 404 - Not Found` when he has no permission to view the current page, this function
+   * should return {@code false}. The default behavior is to show `HTTP 403 - Forbidden` in this case.
+   *
+   * @return bool {@code true} if the user should see a `HTTP 403 - Forbidden`, {@code false} else
+   */
+  public function showForbiddenWithoutPermissions() {
+    return true;
+  }
+
+  /**
    * @return mixed the page content
    *
    * @throws WebException if anything goes wrong
