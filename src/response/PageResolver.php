@@ -16,14 +16,11 @@
 namespace Yarf\response;
 
 
-use Yarf\exc\web\HttpMethodNotAllowed;
-use Yarf\exc\web\HttpNotFound;
 use Yarf\exc\web\WebException;
 use Yarf\page\JsonPage;
 use Yarf\page\TextPage;
 use Yarf\page\WebPage;
 use Yarf\Router;
-use Yarf\wrapper\Server;
 
 /**
  * Class PageResolver
@@ -58,6 +55,15 @@ class PageResolver {
    */
   private $rawRequestBody;
 
+  /**
+   * PageResolver constructor.
+   *
+   * @param Router $router the router which handles the current request
+   * @param WebPage|null $webPage the page to show the user
+   * @param string[]|null $uriVariables the variables which were on this route, as an associative array
+   * @param string[]|null $errorMap the error map which holds different {@code Yarf\page\error\ErrorPage}
+   * to display any thrown exception
+   */
   public function __construct(Router $router, WebPage $webPage = null, array $uriVariables = null,
                               array $errorMap = null) {
     $this->router = $router;
@@ -67,6 +73,9 @@ class PageResolver {
     $this->evaluated = false;
   }
 
+  /**
+   * Evaluates the given webpage and handles any occuring error
+   */
   public function evaluateWebPage() {
     $this->evaluated = true;
 
@@ -80,6 +89,10 @@ class PageResolver {
   }
 
   private function createRequestBodyFromException() {
+    if ($this->thrownWebException === null) {
+      return "";  // fail silently, as it should not happen
+    }
+
     $statusCode = $this->thrownWebException->getStatusCode();
     $errorPage = array_key_exists($statusCode, $this->errorMap) ? $this->errorMap[$statusCode] :
       $this->errorMap[WebException::STATUS_CODE];
