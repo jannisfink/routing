@@ -45,17 +45,38 @@ class Router {
   /**
    * @var bool
    */
-  private static $test;
+  private $test;
 
   /**
    * @var array the valid classmap
    */
-  private static $classMap;
+  private $classMap;
 
   /**
    * @var array the error map
    */
-  private static $errorMap;
+  private $errorMap;
+
+  /**
+   * Router constructor.
+   *
+   * Constructs a new router.
+   */
+  public function __construct() {
+
+  }
+
+  /**
+   * Main API method to show a page.
+   *
+   * @param $classMap array an associative array which maps all wanted urls to the given classname
+   * @param $errorMap array an array with numeric keys mapping one http statuscode.
+   *
+   * @deprecated use {@code Router::route} instead
+   */
+  public function showPage(array $classMap, array $errorMap = null) {
+    $this->route($classMap, $errorMap);
+  }
 
   /**
    * Main API method to show a page.
@@ -63,36 +84,36 @@ class Router {
    * @param $classMap array an associative array which maps all wanted urls to the given classname
    * @param $errorMap array an array with numeric keys mapping one http statuscode.
    */
-  public static function showPage(array $classMap, array $errorMap = null) {
-    self::$classMap = $classMap;
-    self::$errorMap = $errorMap === null ? self::$defaultErrorMap : array_merge(self::$defaultErrorMap, $errorMap);
+  public function route(array $classMap, array $errorMap = null) {
+    $this->classMap = $classMap;
+    $this->errorMap = $errorMap === null ? self::$defaultErrorMap : array_merge(self::$defaultErrorMap, $errorMap);
 
-    $pageMapper = new PageMapper(self::getClassMap());
+    $pageMapper = new PageMapper($this->getClassMap());
     $page = $pageMapper->getPage();
 
-    $pageResolver = new PageResolver($page, $pageMapper->getUriVariables(), self::$errorMap);
+    $pageResolver = new PageResolver($this, $page, $pageMapper->getUriVariables(), $this->errorMap);
     $pageResolver->evaluateWebPage();
     $pageResolver->createHeader();
     $echo = $pageResolver->getRequestBody();
 
     // do not print if this is a test
-    if (!self::$test) {
+    if (!$this->test) {
       print $echo;
     }
   }
 
   /**
-   * @return array the actually valid class map
+   * @return string[] the actually valid class map
    */
-  public static function getClassMap() {
-    return self::$classMap;
+  public function getClassMap() {
+    return $this->classMap;
   }
 
   /**
    * For test purposes only. Sets a private field to indicate that this is a test run
    */
-  public static final function runAsTest() {
-    self::$test = true;
+  public final function runAsTest() {
+    $this->test = true;
   }
 
   /**
@@ -100,8 +121,8 @@ class Router {
    *
    * @return bool {@code true} for test run, {@code false} else
    */
-  public static final function isTestRun() {
-    return self::$test;
+  public final function isTestRun() {
+    return $this->test;
   }
 
 }

@@ -40,6 +40,8 @@ class PageResolver {
 
   private $webPage;
 
+  private $router;
+
   private $errorMap;
 
   private $uriVariables;
@@ -56,7 +58,9 @@ class PageResolver {
    */
   private $rawRequestBody;
 
-  public function __construct(WebPage $webPage = null, array $uriVariables = null, array $errorMap = null) {
+  public function __construct(Router $router, WebPage $webPage = null, array $uriVariables = null,
+                              array $errorMap = null) {
+    $this->router = $router;
     $this->webPage = $webPage;
     $this->errorMap = $errorMap;
     $this->uriVariables = $uriVariables;
@@ -98,7 +102,7 @@ class PageResolver {
    * This function will do nothing if this is a test run
    */
   public function createHeader() {
-    if (Router::isTestRun()) {
+    if ($this->router->isTestRun()) {
       return;
     }
 
