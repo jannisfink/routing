@@ -51,7 +51,7 @@ class PageMapper {
   }
 
   /**
-   * Gets a web page based on the request url.
+   * Gets a web page based on the request url. {@code null} i no such page is found.
    *
    * @return WebPage a web page mapping to the request
    * @throws WebException if anything goes wrong

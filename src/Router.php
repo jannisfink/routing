@@ -58,12 +58,21 @@ class Router {
   private $errorMap;
 
   /**
+   * if this variable is set to {@code true}, this means that this router should do nothing, if it cannot find a page.
+   *
+   * @var bool
+   */
+  private $fallThrough;
+
+  /**
    * Router constructor.
    *
    * Constructs a new router.
+   *
+   * @param $fallThrough bool let this router do nothing for not found pages
    */
-  public function __construct() {
-
+  public function __construct($fallThrough = false) {
+    $this->fallThrough = $fallThrough;
   }
 
   /**
@@ -90,6 +99,11 @@ class Router {
 
     $pageMapper = new PageMapper($this->getClassMap());
     $page = $pageMapper->getPage();
+
+    if ($page == null) {
+      // do nothing, if no page is found
+      return;
+    }
 
     $pageResolver = new PageResolver($this, $page, $pageMapper->getUriVariables(), $this->errorMap);
     $pageResolver->evaluateWebPage();
