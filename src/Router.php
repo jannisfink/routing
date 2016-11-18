@@ -100,8 +100,8 @@ class Router {
     $pageMapper = new PageMapper($this->getClassMap());
     $page = $pageMapper->getPage();
 
-    if ($page == null) {
-      // do nothing, if no page is found
+    if ($page == null && $this->fallThrough) {
+      // do nothing, if no page is found and the router should fall through
       return;
     }
 
