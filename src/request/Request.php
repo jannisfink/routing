@@ -52,7 +52,8 @@ class Request {
     if ($post === null) {
       $post = $_POST;
     }
-    if ($body === null) {
+    // `php_sapi_name` for detecting if thid is a test run. This is kind of ugly
+    if ($body === null && php_sapi_name() !== "cli") {
       $body = file_get_contents("php://stdin");
     }
 
