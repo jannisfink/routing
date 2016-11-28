@@ -18,16 +18,32 @@ namespace Yarf\request;
 
 class RequestTest extends \PHPUnit_Framework_TestCase {
 
-  public function testRequest() {
+  /**
+   * @var Request
+   */
+  private $request;
+
+  public function setUp() {
     $get = ["test" => "tut"];
     $post = ["tut" => "test"];
     $body = '{"test": "tut", "tut": [1, 2, 3]}';
-    $bodyParsed = ["test" => "tut", "tut" => [1, 2, 3]];
-    $request = new Request($get, $post, $body);
+    $this->request = new Request($get, $post, $body);
+  }
 
-    $this->assertEquals($get["test"], $request->get("test"));
-    $this->assertEquals($post["tut"], $request->post("tut"));
-    $this->assertEquals($bodyParsed, $request->getJson());
+  public function testRequest() {
+    $bodyParsed = ["test" => "tut", "tut" => [1, 2, 3]];
+
+    $this->assertEquals("tut", $this->request->get("test"));
+    $this->assertEquals("test", $this->request->post("tut"));
+    $this->assertEquals($bodyParsed, $this->request->getJson());
+  }
+
+  public function testGetNonexistingKey() {
+    $this->assertNull($this->request->get("nonexisting"));
+  }
+
+  public function testPostNonexistingKey() {
+    $this->assertNull($this->request->post("nonexisting"));
   }
 
 }
