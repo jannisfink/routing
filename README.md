@@ -31,6 +31,9 @@ There are three basic page types. `HtmlPage`, `JsonPage` and `TextPage`. Each of
 Create a restful service with this framework is dead simple. Here is a quick example:
 
 ```php
+
+use Yarf\response\Response;
+
 class UserApi extends Yarf\page\JsonPage {
 
   private $user;
@@ -64,7 +67,7 @@ When configuring your routes, route elements using a scheme like `{variable}` wi
 
 ```php
 
-use Yarf\response\Response
+use Yarf\response\Response;
 
 class UserApi extents \Yarf\page\JsonPage {
 
