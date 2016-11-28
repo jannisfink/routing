@@ -54,7 +54,7 @@ class PageRenderer {
   }
 
   /**
-   * @return array|string the evaluated page content
+   * @return Response the evaluated page content
    *
    * @throws WebException if anything goes wrong
    */
@@ -82,7 +82,7 @@ class PageRenderer {
       if (!($result instanceof Response)) {
         throw new HttpInternalServerError("The result of initialize has to be of type 'Response'");
       }
-      return $result->getResult();
+      return $result;
     } catch (HttpMethodNotAllowed $exc) {
       // empty on purpose (try render first, if its not overridden, fall through)
     }
@@ -92,7 +92,7 @@ class PageRenderer {
     if (!($result instanceof Response)) {
       throw new HttpInternalServerError("The result of $requestMethod has to be of type 'Response'");
     }
-    return $result->getResult();
+    return $result;
   }
 
   /**
@@ -125,7 +125,7 @@ class PageRenderer {
       if ($parameter->getClass()->getName() === Request::class) {
         $result[] = new Request();
       } elseif ($parameter->getClass()->getName() == Response::class) {
-        $result[] = new Response();
+        $result[] = Response::createResponseForPage($this->webPage);
       } elseif (array_key_exists($parameter->getName(), $this->uriVariables)) {
         $result[] = $this->uriVariables[$parameter->getName()];
       } else {

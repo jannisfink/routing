@@ -14,6 +14,8 @@
 // limitations under the License.
 
 namespace Yarf\response;
+use Yarf\http\Header;
+use Yarf\page\WebPage;
 
 
 /**
@@ -40,6 +42,12 @@ class Response {
    */
   public function __construct() {
     $this->headers = [];
+  }
+
+  public static function createResponseForPage(WebPage $page) {
+    $response = new Response();
+    $response->addHeader(Header::CONTENT_TYPE, $page->getContentType());
+    return $response;
   }
 
   /**

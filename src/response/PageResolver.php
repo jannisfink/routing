@@ -51,6 +51,11 @@ class PageResolver {
   private $thrownWebException;
 
   /**
+   * @var Response
+   */
+  private $response;
+
+  /**
    * @var string
    */
   private $rawRequestBody;
@@ -81,7 +86,8 @@ class PageResolver {
 
     try {
       $renderer = new PageRenderer($this->webPage, $this->uriVariables);
-      $this->rawRequestBody = $renderer->evaluatePage();
+      $this->response = $renderer->evaluatePage();
+      $this->rawRequestBody = $this->response->getResult();
     } catch (WebException $e) {
       // FIXME this is ugly
       $this->thrownWebException = $e;
@@ -121,7 +127,9 @@ class PageResolver {
     }
 
     http_response_code($this->getStatusCode());
-    header("Content-type:" . $this->getContentType());
+    foreach ($this->response->getHeaders() as $header => $value) {
+      header($header . ":" . $value);
+    }
   }
 
   /**
