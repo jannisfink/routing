@@ -82,8 +82,6 @@ class PageResolver {
    * Evaluates the given webpage and handles any occuring error
    */
   public function evaluateWebPage() {
-    $this->evaluated = true;
-
     try {
       $renderer = new PageRenderer($this->webPage, $this->uriVariables);
       $this->response = $renderer->evaluatePage();
@@ -92,6 +90,8 @@ class PageResolver {
       // FIXME this is ugly
       $this->thrownWebException = $e;
       $this->rawRequestBody = $this->createRequestBodyFromException();
+    } finally {
+      $this->evaluated = true;
     }
   }
 
