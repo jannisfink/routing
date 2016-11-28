@@ -39,17 +39,20 @@ class UserApi extends Yarf\page\JsonPage {
     $this->user = ...;
   }
 
-  public function get() {
-    return $this->user;
+  public function get(Response $response) {
+    $response->result($this->user);
+    return $response;
   }
   
-  public function post() {
+  public function post(Response $response) {
     $this->user->update(...);
-    return $this->user;
+    $response->result($this->user);
+    return $response;
   }
   
-  public function delete() {
-    $this->user->delete();
+  public function delete(Response $response) {
+    $response->result($this->user->delete());
+    return $response;
   }
 
 }
@@ -60,10 +63,14 @@ class UserApi extends Yarf\page\JsonPage {
 When configuring your routes, route elements using a scheme like `{variable}` will be interpreted as variable uri parts.
 
 ```php
+
+use Yarf\response\Response
+
 class UserApi extents \Yarf\page\JsonPage {
 
-  public function get($userId) {
-    return UserCache::get($userId);
+  public function get(Response $response, $userId) {
+    $response->result(UserCache::get($userId));
+    return $response;
   }
 
 }
