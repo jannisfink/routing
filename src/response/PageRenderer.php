@@ -116,6 +116,8 @@ class PageRenderer {
     foreach ($method->getParameters() as $parameter) {
       if ($parameter->getClass()->getName() === Request::class) {
         $result[] = new Request();
+      } elseif ($parameter->getClass()->getName() == Response::class) {
+        $result[] = new Response();
       } elseif (array_key_exists($parameter->getName(), $this->uriVariables)) {
         $result[] = $this->uriVariables[$parameter->getName()];
       } else {

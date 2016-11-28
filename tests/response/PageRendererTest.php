@@ -39,7 +39,16 @@ class PageWithRequestAsParameter extends HtmlPage {
 
   public function get(Request $request) {
     $this->request = $request;
-    return "";
+    return new Response();
+  }
+}
+
+class PageWithResponseAsParameter extends HtmlPage {
+  public $response;
+
+  public function get(Response $response) {
+    $this->response = $response;
+    return $response;
   }
 }
 
@@ -74,6 +83,15 @@ class PageRendererTest extends \PHPUnit_Framework_TestCase {
 
     $this->assertNotNull($page->request);
     $this->assertInstanceOf(Request::class, $page->request);
+  }
+
+  public function testResponseGetPassedAsParameter() {
+    $page = new PageWithResponseAsParameter();
+    $renderer = new PageRenderer($page, []);
+    $renderer->evaluatePage();
+
+    $this->assertNotNull($page->response);
+    $this->assertInstanceOf(Response::class, $page->response);
   }
 
 }
