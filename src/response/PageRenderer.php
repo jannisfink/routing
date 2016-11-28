@@ -21,6 +21,7 @@ use Yarf\exc\web\HttpMethodNotAllowed;
 use Yarf\exc\web\HttpNotFound;
 use Yarf\exc\web\WebException;
 use Yarf\page\WebPage;
+use Yarf\request\Request;
 use Yarf\wrapper\Server;
 
 /**
@@ -82,8 +83,8 @@ class PageRenderer {
     }
 
     $requestMethodParameters = $this->getParametersForMethod($reflectionObject->getMethod($requestMethod));
-    return call_user_func_array([$this->webPage, $requestMethod], $requestMethodParameters);
-
+    $result = call_user_func_array([$this->webPage, $requestMethod], $requestMethodParameters);
+    return $result;
   }
 
   /**
@@ -113,7 +114,9 @@ class PageRenderer {
     $result = [];
 
     foreach ($method->getParameters() as $parameter) {
-      if (array_key_exists($parameter->getName(), $this->uriVariables)) {
+      if ($parameter->getClass()->getName() === Request::class) {
+        $result[] = new Request();
+      } elseif (array_key_exists($parameter->getName(), $this->uriVariables)) {
         $result[] = $this->uriVariables[$parameter->getName()];
       } else {
         $result[] = null;

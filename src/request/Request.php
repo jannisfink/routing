@@ -53,7 +53,7 @@ class Request {
       $post = $_POST;
     }
     if ($body === null) {
-      $body = file_get_contents(STDIN);
+      $body = file_get_contents("php://stdin");
     }
 
     $this->get = $get;

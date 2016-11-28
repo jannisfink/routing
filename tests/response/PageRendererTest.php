@@ -19,6 +19,7 @@ namespace Yarf\response;
 use Yarf\exc\web\HttpForbidden;
 use Yarf\exc\web\HttpNotFound;
 use Yarf\page\HtmlPage;
+use Yarf\request\Request;
 use Yarf\wrapper\Server;
 
 class PageWithNoPermission extends HtmlPage {
@@ -30,6 +31,15 @@ class PageWithNoPermission extends HtmlPage {
 class PageWithNoPermissionNotFound extends PageWithNoPermission {
   public function showForbiddenWithoutPermission() {
     return false;
+  }
+}
+
+class PageWithRequestAsParameter extends HtmlPage {
+  public $request;
+
+  public function get(Request $request) {
+    $this->request = $request;
+    return "";
   }
 }
 
@@ -55,6 +65,15 @@ class PageRendererTest extends \PHPUnit_Framework_TestCase {
 
     $renderer = new PageRenderer(new PageWithNoPermissionNotFound(), []);
     $renderer->evaluatePage();
+  }
+
+  public function testRequestGetPassedInAsParameter() {
+    $page = new PageWithRequestAsParameter();
+    $renderer = new PageRenderer($page, []);
+    $renderer->evaluatePage();
+
+    $this->assertNotNull($page->request);
+    $this->assertInstanceOf(Request::class, $page->request);
   }
 
 }
