@@ -17,6 +17,7 @@ namespace Yarf\response;
 
 
 use Yarf\exc\web\HttpForbidden;
+use Yarf\exc\web\HttpInternalServerError;
 use Yarf\exc\web\HttpMethodNotAllowed;
 use Yarf\exc\web\HttpNotFound;
 use Yarf\exc\web\WebException;
@@ -77,14 +78,21 @@ class PageRenderer {
 
     $renderParameters = $this->getParametersForMethod($reflectionObject->getMethod(self::FALLBACK_FUNCTION));
     try {
-      return call_user_func_array([$this->webPage, self::FALLBACK_FUNCTION], $renderParameters);
+      $result = call_user_func_array([$this->webPage, self::FALLBACK_FUNCTION], $renderParameters);
+      if (!($result instanceof Response)) {
+        throw new HttpInternalServerError("The result of initialize has to be of type 'Response'");
+      }
+      return $result->getResult();
     } catch (HttpMethodNotAllowed $exc) {
       // empty on purpose (try render first, if its not overridden, fall through)
     }
 
     $requestMethodParameters = $this->getParametersForMethod($reflectionObject->getMethod($requestMethod));
     $result = call_user_func_array([$this->webPage, $requestMethod], $requestMethodParameters);
-    return $result;
+    if (!($result instanceof Response)) {
+      throw new HttpInternalServerError("The result of $requestMethod has to be of type 'Response'");
+    }
+    return $result->getResult();
   }
 
   /**
