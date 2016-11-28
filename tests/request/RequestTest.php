@@ -30,11 +30,8 @@ class RequestTest extends \PHPUnit_Framework_TestCase {
     $this->request = new Request($get, $post, $body);
   }
 
-  public function testRequest() {
+  public function testGetJson() {
     $bodyParsed = ["test" => "tut", "tut" => [1, 2, 3]];
-
-    $this->assertEquals("tut", $this->request->get("test"));
-    $this->assertEquals("test", $this->request->post("tut"));
     $this->assertEquals($bodyParsed, $this->request->getJson());
   }
 
@@ -42,8 +39,12 @@ class RequestTest extends \PHPUnit_Framework_TestCase {
     $this->assertNull($this->request->get("nonexisting"));
   }
 
-  public function testPostNonexistingKey() {
-    $this->assertNull($this->request->post("nonexisting"));
+  public function getGetVariable() {
+    $this->assertEquals("tut", $this->request->get("test"));
+  }
+
+  public function getPostVariable() {
+    $this->assertEquals("test", $this->request->get("tut"));
   }
 
 }

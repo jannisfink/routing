@@ -62,19 +62,16 @@ class Request {
   }
 
   /**
+   * Returns a parameter given via url variables or post variables.
+   * If a key exists both in url an in post variables, the url variable
+   * will be returned.
+   *
    * @param string $key name of the parameter
    * @return string|null the parameter value, {@code null} if the key does not exist
    */
   public function get($key) {
-    return $this->getParam($key, $this->get);
-  }
-
-  /**
-   * @param string $key name of the parameter
-   * @return string|null the parameter value, {@code null} if the key does not exist
-   */
-  public function post($key) {
-    return $this->getParam($key, $this->post);
+    $get = $this->getParam($key, $this->get);
+    return $get !== null ? $get : $this->getParam($key, $this->post);
   }
 
   /**
