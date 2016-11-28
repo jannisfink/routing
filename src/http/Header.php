@@ -1,14 +1,38 @@
 <?php
+// Copyright 2016 Jannis Fink
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+namespace Yarf\http;
+
 /**
- * Created by PhpStorm.
- * User: jannis
- * Date: 28.11.16
- * Time: 21:28
+ * Class Header
+ *
+ * This class is a collection of possible http headers to be used by this package
+ *
+ * @package Yarf\http
  */
+final class Header {
 
-namespace http;
+  const CONTENT_TYPE = "Content-Type";
 
-
-class Header {
+  /**
+   * Header constructor.
+   *
+   * Do not allow instances of this class
+   */
+  private function __construct() {
+    // empty on purpose
+  }
 
 }
