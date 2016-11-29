@@ -35,6 +35,11 @@ class Request {
   private $post;
 
   /**
+   * @var array the uploaded files
+   */
+  private $files;
+
+  /**
    * @var string the request body as plain string
    */
   private $body;
@@ -44,8 +49,9 @@ class Request {
    * @param array|null $get the get parameters to use, will default to {@code $_GET}
    * @param array|null $post the post (request body variables) to use, will default to {@code $_POST}
    * @param string|null $body the request body as plain string
+   * @param array|null $files the uploaded files
    */
-  public function __construct($get = null, $post = null, $body = null) {
+  public function __construct($get = null, $post = null, $body = null, $files = null) {
     if ($get === null) {
       $get = $_GET;
     }
@@ -56,10 +62,14 @@ class Request {
     if ($body === null && php_sapi_name() !== "cli") {
       $body = file_get_contents("php://stdin");
     }
+    if ($files === null) {
+      $files = $_FILES;
+    }
 
     $this->get = $get;
     $this->post = $post;
     $this->body = $body;
+    $this->files = $files;
   }
 
   /**
@@ -72,7 +82,14 @@ class Request {
    */
   public function get($key) {
     $get = $this->getParam($key, $this->get);
-    return $get !== null ? $get : $this->getParam($key, $this->post);
+    if ($get !== null) {
+      return $get;
+    }
+    $post = $this->getParam($key, $this->post);
+    if ($post !== null) {
+      return $post;
+    }
+    return $this->getParam($key, $this->files);
   }
 
   /**
