@@ -17,6 +17,7 @@ namespace Yarf\response;
 
 
 use Yarf\exc\web\WebException;
+use Yarf\http\Header;
 use Yarf\page\JsonPage;
 use Yarf\page\TextPage;
 use Yarf\page\WebPage;
@@ -127,8 +128,14 @@ class PageResolver {
     }
 
     http_response_code($this->getStatusCode());
-    foreach ($this->response->getHeaders() as $header => $value) {
-      header($header . ":" . $value);
+    if ($this->response === null) {
+      // exception was raised
+      // FIXME ensure that a response is always given initialized with at least the content type header
+      header(Header::CONTENT_TYPE . ":" . $this->getContentType());
+    } else {
+      foreach ($this->response->getHeaders() as $header => $value) {
+        header($header . ":" . $value);
+      }
     }
   }
 
