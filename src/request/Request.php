@@ -40,11 +40,6 @@ class Request {
   private $files;
 
   /**
-   * @var string the request body as plain string
-   */
-  private $body;
-
-  /**
    * Request constructor.
    * @param array|null $get the get parameters to use, will default to {@code $_GET}
    * @param array|null $post the post (request body variables) to use, will default to {@code $_POST}
@@ -59,8 +54,8 @@ class Request {
       $post = $_POST;
     }
     // `php_sapi_name` for detecting if thid is a test run. This is kind of ugly
-    if ($body === null && php_sapi_name() !== "cli") {
-      $body = file_get_contents("php://stdin");
+    if ($body === null) {
+      $body = file_get_contents("php://input");
     }
     if ($files === null) {
       $files = $_FILES;
