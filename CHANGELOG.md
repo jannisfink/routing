@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.5
+
+- fix npe which happens for parameters without type
+
 ## 0.0.4
 
 - Use `php://input` instead of `php://stdin` for non blocking requests
