@@ -77,7 +77,10 @@ class PageMapper {
    * @return string|null matching page class name, if there is any, {@code null} else
    */
   private function traverse(array $pageMap, array $uriParts) {
-    if (!count($uriParts)) {
+    if (count($uriParts) === 0) {
+      if (array_key_exists('', $pageMap)) {
+        return $pageMap[''];
+      }
       return null;
     }
     $nextKey = $this->uriKeyExists($uriParts[0], $pageMap);

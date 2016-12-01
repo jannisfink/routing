@@ -2,7 +2,8 @@
 
 ## 0.0.6
 
-- fix a bug that uri variables not get filled correctly
+- fix a bug that uri variables get filled incorrectly
+- fix a bug that a 404 got raised incorrectly
 
 ## 0.0.5
 

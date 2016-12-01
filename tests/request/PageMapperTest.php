@@ -173,4 +173,18 @@ class PageMapperTest extends \PHPUnit_Framework_TestCase {
     $pageMapper->getPage();
   }
 
+  public function testGetToplevelPageWithSubpagesPresent() {
+    $pageMap = [
+      'subdir' => [
+        '' => SampleWebPage::class,
+        'subpage' => SampleWebPage::class
+      ]
+    ];
+
+    Server::setDefault([Server::REQUEST_URI => '/subdir']);
+
+    $pageMapper = new PageMapper($pageMap);
+    $this->assertInstanceOf(SampleWebPage::class, $pageMapper->getPage());
+  }
+
 }
