@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.7
+
+- update another bug in the page mapper function which leads to an undefined array index
+
 ## 0.0.6
 
 - fix a bug that uri variables get filled incorrectly

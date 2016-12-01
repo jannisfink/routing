@@ -110,7 +110,7 @@ class PageMapper {
       return $nextUriPart;
     }
     $keys = array_keys($pageMap);
-    $variableParts = preg_grep('/\{(.*)\}/', $keys);
+    $variableParts = array_values(preg_grep('/\{(.*)\}/', $keys));
     $variablePartsCount = count($variableParts);
     if ($variablePartsCount === 0) {
       return null;
