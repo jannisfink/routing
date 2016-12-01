@@ -122,11 +122,9 @@ class PageRenderer {
     $result = [];
 
     foreach ($method->getParameters() as $parameter) {
-      if ($parameter->getClass() === null) {
-        $result[] = null;
-      } elseif ($parameter->getClass()->getName() === Request::class) {
+      if ($parameter->getClass() !== null && $parameter->getClass()->getName() === Request::class) {
         $result[] = new Request();
-      } elseif ($parameter->getClass()->getName() == Response::class) {
+      } elseif ($parameter->getClass() !== null && $parameter->getClass()->getName() == Response::class) {
         $result[] = Response::createResponseForPage($this->webPage);
       } elseif (array_key_exists($parameter->getName(), $this->uriVariables)) {
         $result[] = $this->uriVariables[$parameter->getName()];

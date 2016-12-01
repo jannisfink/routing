@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.6
+
+- fix a bug that uri variables not get filled correctly
+
 ## 0.0.5
 
 - fix npe which happens for parameters without type

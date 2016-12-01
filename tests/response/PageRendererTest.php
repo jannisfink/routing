@@ -52,6 +52,26 @@ class PageWithResponseAsParameter extends HtmlPage {
   }
 }
 
+class PageWithRequestResponseAndUriVariables extends HtmlPage {
+  public $request;
+  public $response;
+
+  public $test;
+  public $variable;
+  public $notSet;
+
+
+  public function get(Request $request, Response $response, $test, $notSet, $variable) {
+    $this->request = $request;
+    $this->response = $response;
+    $this->test = $test;
+    $this->variable = $variable;
+    $this->notSet = $notSet;
+
+    return $response;
+  }
+}
+
 class PageRendererTest extends \PHPUnit_Framework_TestCase {
 
   public function tearDown() {
@@ -92,6 +112,20 @@ class PageRendererTest extends \PHPUnit_Framework_TestCase {
 
     $this->assertNotNull($page->response);
     $this->assertInstanceOf(Response::class, $page->response);
+  }
+
+  public function testSetAllKindOfVariables() {
+    $uriParameters = ["test" => "test", "variable" => "variable"];
+    $page = new PageWithRequestResponseAndUriVariables();
+
+    $renderer = new PageRenderer($page, $uriParameters);
+    $renderer->evaluatePage();
+
+    $this->assertInstanceOf(Request::class, $page->request);
+    $this->assertInstanceOf(Response::class, $page->response);
+    $this->assertEquals("test", $page->test);
+    $this->assertEquals("variable", $page->variable);
+    $this->assertNull($page->notSet);
   }
 
 }
