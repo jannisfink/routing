@@ -19,6 +19,7 @@ use Yarf\exc\web\WebException;
 use  Yarf\page\error\ErrorPage;
 use Yarf\request\PageMapper;
 use Yarf\response\PageResolver;
+use Yarf\serialize\Serializer;
 
 /**
  * Class Router
@@ -63,6 +64,13 @@ class Router {
    * @var bool
    */
   private $fallThrough;
+
+  /**
+   * The serializer to use to encode json
+   *
+   * @var Serializer
+   */
+  private $jsonSerializer;
 
   /**
    * Router constructor.
@@ -121,6 +129,22 @@ class Router {
    */
   public function getClassMap() {
     return $this->classMap;
+  }
+
+  /**
+   * Sets the serializer to use for json serialisation.
+   *
+   * @param Serializer $jsonSerializer
+   */
+  public function setJsonSerializer(Serializer $jsonSerializer) {
+    $this->jsonSerializer = $jsonSerializer;
+  }
+
+  /**
+   * @return Serializer
+   */
+  public function getJsonSerializer() {
+    return $this->jsonSerializer;
   }
 
   /**

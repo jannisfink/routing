@@ -173,7 +173,8 @@ class PageResolver {
     }
 
     if ($this->webPage instanceof JsonPage) {
-      return json_encode($this->rawRequestBody);
+      $serializer = $this->router->getJsonSerializer();
+      return $serializer->serialize($this->rawRequestBody);
     } else {
       return $this->rawRequestBody;
     }
