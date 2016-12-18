@@ -19,6 +19,7 @@ use Yarf\exc\web\WebException;
 use  Yarf\page\error\ErrorPage;
 use Yarf\request\PageMapper;
 use Yarf\response\PageResolver;
+use Yarf\serialize\JsonSerializer;
 use Yarf\serialize\Serializer;
 
 /**
@@ -144,6 +145,9 @@ class Router {
    * @return Serializer
    */
   public function getJsonSerializer() {
+    if ($this->jsonSerializer === null) {
+      $this->jsonSerializer = new JsonSerializer();
+    }
     return $this->jsonSerializer;
   }
 
